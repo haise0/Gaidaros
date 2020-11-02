@@ -162,6 +162,8 @@ def cmdi(target, output, data):
             int_total = set(int_total)
 
             scan_cmdi(target, value_forms_malforms, cmdi_data)
+            if target in int_total:
+                int_total.remove(target)
             for int in int_total:
                 scan_cmdi(int, value_forms_malforms, cmdi_data)
 
