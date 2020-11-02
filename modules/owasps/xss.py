@@ -162,6 +162,8 @@ def xss(target, output, data):
             int_total = set(int_total)
             
             scan_xss(target, value_forms_malforms, xss_data)
+            if target in int_total:
+                int_total.remove(target)
             for int in int_total:
                 scan_xss(int, value_forms_malforms, xss_data)
 
