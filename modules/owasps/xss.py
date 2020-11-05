@@ -155,6 +155,8 @@ def xss(target, output, data):
             links = soup.find_all('a')
             for link in links:
                 url = link.get('href')
+                if not "http://" in link or "https://" in link:
+                    link = target + link
                 if url != None:
                     if domain in url:
                         int_total.append(url)
