@@ -158,8 +158,9 @@ def xss(target, output, data):
                 if url != None:
                     if not "http://" in url or "https://" in url:
                         url = target +  "/" + url
-                    if domain in url:
-                        int_total.append(url)
+                    if not '#' in url:
+                        if domain in url:
+                            int_total.append(url)
             
             int_total = set(int_total)
             
