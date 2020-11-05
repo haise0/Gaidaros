@@ -156,7 +156,7 @@ def xss(target, output, data):
             for link in links:
                 url = link.get('href')
                 if not "http://" in url or "https://" in url:
-                    url = target + url
+                    url = target +  "/" + url
                 if url != None:
                     if domain in url:
                         int_total.append(url)
