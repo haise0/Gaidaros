@@ -4,6 +4,10 @@ import sys
 import os
 import requests
 import re
+import bs4
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 class bcolors:
