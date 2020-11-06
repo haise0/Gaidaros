@@ -9,7 +9,6 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-
 class bcolors:
     SUCCESS = '\033[92m'
     WARNING = '\033[93m'
@@ -27,7 +26,7 @@ Y = '\033[33m' # yellow
 
 
 def cve_details(target, cve_code):
-    target = 'https://www.cvedetails.com/cve/' + cve_code
+    target = 'https://www.cvedetails.com/cve/' + cve_code.strip()
 
     user_agent = {
         'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'
@@ -37,29 +36,29 @@ def cve_details(target, cve_code):
 
     sc = rqst.status_code
     if sc == 200:
-            page = rqst.content
-            
-            soup = bs4.BeautifulSoup(page, 'lxml')
+        page = rqst.content
+        
+        soup = bs4.BeautifulSoup(page, 'lxml')
 
-            content = soup.text
-            if 'Unknown CVE ID' in content:
-                print(R + '[-]' + C + ' Unknown CVE ID' + W)
-                exit()
-            else:
-                pass
+        content = soup.text
+        if 'Unknown CVE ID' in content:
+            print(R + '\n[-]' + C + ' Unknown CVE ID ' + cve_code + W + '\n')
+            return
+        else:
+            pass
 
-            cvedetailssummary = soup.find("div", {"class": "cvedetailssummary"})
-            str = cvedetailssummary.text.strip()
-            str = str.replace('\t', '\n')
-            while '\n\n' in str:
-                str = str.replace('\n\n', '\n')
-            str = R + 'CVE Description : ' + W + str 
-            str = str + '\n' + R + 'CVE Details Url : ' + W + target
-            str = str.replace('Last Update Date :', R + 'Last Update Date :' + W)
-            str = str.replace('Publish Date :', R + 'Publish Date :' + W)
-            print(str)
+        cvedetailssummary = soup.find("div", {"class": "cvedetailssummary"})
+        str = cvedetailssummary.text.strip()
+        str = str.replace('\t', '\n')
+        while '\n\n' in str:
+            str = str.replace('\n\n', '\n')
+        str = R + 'CVE Description : ' + W + str 
+        str = str + '\n' + R + 'CVE Details Url : ' + W + target
+        str = str.replace('Last Update Date :', R + 'Last Update Date :' + W)
+        str = str.replace('Publish Date :', R + 'Publish Date :' + W)
+        print(str)
     else:
-        print('\n' + R + '[-]' + C + ' Could not found  ' + W + '\n')
+        print('\n' + R + '[-]' + C + ' Could not retrieve CVE Details for ' + cve_code + W + '\n')
 
 
 def checkVulns(target, output, data):
@@ -117,7 +116,7 @@ def checkVulns(target, output, data):
         
         # cve details
         for cve_code in vulns_rp:
-            print(G + '\n[+]' + C + cve_code + W)
+            print(G + '\n[+] ' + C + cve_code + W)
             print('-'*60)
             cve_details(target, cve_code)
             print('-'*60)
