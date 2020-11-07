@@ -78,9 +78,9 @@ light_help.add_argument('--light', help='Full Web Light Scan', action='store_tru
 # OWASP Scan parser
 owasp_help = parser.add_argument_group('OWASP Scan Options')
 owasp_help.add_argument('--xss', help='Cross Site Scripting', action='store_true')
-owasp_help.add_argument('--sql', help='SQL Injection Scripting - UNDER DEVELOPMENT', action='store_true')
 owasp_help.add_argument('--csrf', help='Cross Site Request Forgery - UNDER DEVELOPMENT', action='store_true')
-owasp_help.add_argument('--cmdi', help='Operating System Command Injection', action='store_true')
+owasp_help.add_argument('--sqli', help='SQL Injection Scripting', action='store_true')
+owasp_help.add_argument('--cmdi', help='OS Command Injection', action='store_true')
 owasp_help.add_argument('--htmli', help='HTML Injection', action='store_true')
 owasp_help.add_argument('--owasp', help='Full OWASP Scan', action='store_true')
 
@@ -141,6 +141,7 @@ light = args.light
 
 # OWASP Scan args
 xss = args.xss
+sqli = args.sqli
 cmdi = args.cmdi
 htmli = args.htmli
 owasp = args.owasp
@@ -262,11 +263,14 @@ def light_scan():
 # OWASP Scan
 def owasp_scan():
 	from modules.owasps.xss import xss
+	from modules.owasps.sqli import sqli
 	from modules.owasps.cmdi import cmdi
 	from modules.owasps.htmli import htmli
 	# 1. XSS
 	xss(target, output, data)
-	# 2. OS Command Injection
+	# 2. SQLi
+	sqli(target, output data)
+	# 2. CMDi
 	cmdi(target, output, data)
 	# 3. HTMLi
 	htmli(target, output, data)
@@ -278,6 +282,7 @@ def full_scan():
 	# 2. Light Vuln Scan
 	light_scan()
 	# 3. OWASP Scan
+	owasp_scan()
 	# 4. Reports
 
 
@@ -410,7 +415,11 @@ try:
 	if xss == True:
 		from modules.owasps.xss import xss
 		xss(target, output, data)
-
+		
+	if sqli == True:
+		from modules.owasps.sqli import sqli
+		sqli(target, output, data)
+		
 	if cmdi == True:
 		from modules.owasps.cmdi import cmdi
 		cmdi(target, output, data)
