@@ -45,6 +45,9 @@ def get_form_details(form):
         details["method"] = method
         details["inputs"] = inputs
         return details
+    except AttributeError as N:
+        print(G + "[+]" + C + f" No action form detected on this site" + W)
+        return None
     except Exception as e:
         print('\n' + R + '[-] Exception : ' + C + str(e) + W)
 
@@ -96,14 +99,17 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
         print(G + "[+]" + C + f" Detected {len(forms)} forms on {url}" + W)
         cmdi_data.append(f"Detected {len(forms)} forms on {url}")
         value_forms_malforms[0] = value_forms_malforms[0] + len(forms)
-        os_script = "a | ping 127.0.0.1"
+        os_script = "a | ping -c 2 127.0.0.1"
         # returning value
         is_vulnerable = False
         # iterate over all forms
         for form in forms:
             form_details = get_form_details(form)
+            if form_details == None:
+                break
             content = submit_form(form_details, url, os_script).content.decode('latin-1')
-            if "Reply from 127.0.0.1" in content or "64 bytes from 127.0.0.1" in content:
+            print(content)
+            if "PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data" in content:
                 print(R + f"[-] Command Injection Detected on {url}" + W)
                 print(R + "[-]" + C + " Form details:" + W)
                 pprint(form_details)
@@ -165,8 +171,6 @@ def cmdi(target, output, data):
             int_total = set(int_total)
 
             scan_cmdi(target, value_forms_malforms, cmdi_data)
-            if target in int_total:
-                int_total.remove(target)
             for int in int_total:
                 scan_cmdi(int, value_forms_malforms, cmdi_data)
 
@@ -194,5 +198,4 @@ def cmdi(target, output, data):
 
 
 def cmdi_output(output, data, result):
-    data['module-Operating System Command Injection'] = result
-
+    data['module-OS Command Injection'] = result
