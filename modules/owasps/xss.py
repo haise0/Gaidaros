@@ -1,50 +1,9 @@
-import tldextract
-import argparse
-import sys
-import bs4
-from pprint import pprint
-from bs4 import BeautifulSoup as bs
-from urllib.parse import urljoin
-import requests
-import urllib3
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-
-R = '\033[31m' # red
-G = '\033[32m' # green
-C = '\033[36m' # cyan
-W = '\033[0m'  # white
-Y = '\033[33m' # yellow
-
-
-def get_all_forms(url):
-    """Given a `url`, it returns all forms from the HTML content"""
-    soup = bs(requests.get(url).content, "html.parser")
-    return soup.find_all("form")
-
-
-def get_form_details(form):
-    """
-    This function extracts all possible useful information about an HTML `form`
-    """
-    details = {}
-    try:
-        # get the form action (target url)
-        action = form.attrs.get("action").lower()
-        # get the form method (POST, GET, etc.)
-        method = form.attrs.get("method", "get").lower()
-        # get all the input details such as type and name
-        inputs = []
-        for input_tag in form.find_all("input"):
-            input_type = input_tag.attrs.get("type", "text")
-            input_name = input_tag.attrs.get("name")
-            inputs.append({"type": input_type, "name": input_name})
-        # put everything to the resulting dictionary
-        details["action"] = action
-        details["method"] = method
         details["inputs"] = inputs
         return details
+    except AttributeError as N:
+        print(G + "[+]" + C + f" No action form detected on this site" + W)
+        return None
     except Exception as e:
         print('\n' + R + '[-] Exception : ' + C + str(e) + W)
 
@@ -102,6 +61,8 @@ def scan_xss(url, value_forms_malforms, xss_data):
         # iterate over all forms
         for form in forms:
             form_details = get_form_details(form)
+            if form_details == None:
+                break
             content = submit_form(form_details, url, js_script).content.decode('latin-1')
             if js_script in content:
                 print(R + f"[-] XSS Detected on {url}" + W)
