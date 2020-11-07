@@ -269,7 +269,7 @@ def owasp_scan():
 	# 1. XSS
 	xss(target, output, data)
 	# 2. SQLi
-	sqli(target, output data)
+	sqli(target, output, data)
 	# 2. CMDi
 	cmdi(target, output, data)
 	# 3. HTMLi
