@@ -100,7 +100,6 @@ def scan_sqli(url, value_forms_malforms, sqli_data):
         sqli_data.append(f"Detected {len(forms)} forms on {url}")
         value_forms_malforms[0] = value_forms_malforms[0] + len(forms)
         sqli_script = '\''
-        print(sqli_script)
         # returning value
         is_vulnerable = False
         # iterate over all forms
