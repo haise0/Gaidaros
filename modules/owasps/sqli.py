@@ -118,7 +118,6 @@ def scan_sqli(url, value_forms_malforms, sqli_data):
                 is_vulnerable = True
                 continue
             content = submit_form(form_details, url, sqli_script).content.decode('latin-1')
-            print(content)
             if "You have an error in your sql syntax;" in content or "warning: mysql" in content or "unclosed quotation mark after the character string" in content:
                 print(R + f"[-] SQL Injection Detected on {url}" + W)
                 print(R + "[-]" + C + " Form details:" + W)
