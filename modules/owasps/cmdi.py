@@ -134,7 +134,7 @@ def cmdi(target, output, data):
     cmdi_data = []
 
     try:
-        print ('\n\n' + G + '[+]' + Y + ' Operating System Command Injection:' + W + '\n')
+        print ('\n\n' + G + '[+]' + Y + ' OS Command Injection (CMDi) :' + W + '\n')
 
         user_agent = {
             'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'
@@ -184,7 +184,7 @@ def cmdi(target, output, data):
             print(R + '[-]' + C + ' Response code returned is not 200' + W)
 
         if output != 'None':
-            result['OS Command Injection'] = cmdi_data
+            result['CMDi'] = cmdi_data
 
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
