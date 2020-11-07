@@ -45,6 +45,9 @@ def get_form_details(form):
         details["method"] = method
         details["inputs"] = inputs
         return details
+    except AttributeError as N:
+        print(G + "[+]" + C + f" No action form detected on this site" + W)
+        return None
     except Exception as e:
         print('\n' + R + '[-] Exception : ' + C + str(e) + W)
 
@@ -102,6 +105,8 @@ def scan_htmli(url, value_forms_malforms, htmli_data):
         # iterate over all forms
         for form in forms:
             form_details = get_form_details(form)
+            if form_details == None:
+                break
             content = submit_form(form_details, url, html_script).content.decode('latin-1')
             if html_script in content:
                 print(R + f"[-] HTMLi Detected on {url}" + W)
