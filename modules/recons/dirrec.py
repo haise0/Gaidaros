@@ -187,27 +187,25 @@ def dir_output(output, data):
 		print()
 
 def hammer(target, threads, tout, wdlist, redir, sslv, dserv, output, data, filext):
-    try:
-        print('\n\n' + Y + '[!]' + Y + ' Starting Directory Search...' + W + '\n')
-        print(G + '[+]' + C + ' Threads          : ' + W + str(threads))
-        print(G + '[+]' + C + ' Timeout          : ' + W + str(tout))
-        print(G + '[+]' + C + ' Wordlist         : ' + W + wdlist)
-        print(G + '[+]' + C + ' Allow Redirects  : ' + W + str(redir))
-        print(G + '[+]' + C + ' SSL Verification : ' + W + str(sslv))
-        print(G + '[+]' + C + ' DNS Servers      : ' + W + dserv)
-        with open(wdlist, 'r') as wordlist:
-            num_words = sum(1 for i in wordlist)
-        print(G + '[+]' + C + ' Wordlist Size    : ' + W + str(num_words))
-        print(G + '[+]' + C + ' File Extensions  : ' + W + str(filext) + '\n')
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        loop.run_until_complete(run(target, threads, tout, wdlist, redir, sslv, dserv, output, data, filext))
-        filter_out(target)
-        loop.run_until_complete(wayback(dserv, tout))
-        wm_filter()
-        dir_output(output, data)
-        loop.close()
-    except Exception as e:
-		print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')		
-		if output != 'None':
-			result.update({'Exception':str(e)})
+	try:
+		print('\n\n' + Y + '[!]' + Y + ' Starting Directory Search...' + W + '\n')
+		print(G + '[+]' + C + ' Threads          : ' + W + str(threads))
+		print(G + '[+]' + C + ' Timeout          : ' + W + str(tout))
+		print(G + '[+]' + C + ' Wordlist         : ' + W + wdlist)
+		print(G + '[+]' + C + ' Allow Redirects  : ' + W + str(redir))
+		print(G + '[+]' + C + ' SSL Verification : ' + W + str(sslv))
+		print(G + '[+]' + C + ' DNS Servers      : ' + W + dserv)
+		with open(wdlist, 'r') as wordlist:
+			num_words = sum(1 for i in wordlist)
+		print(G + '[+]' + C + ' Wordlist Size    : ' + W + str(num_words))
+		print(G + '[+]' + C + ' File Extensions  : ' + W + str(filext) + '\n')
+		loop = asyncio.new_event_loop()
+		asyncio.set_event_loop(loop)
+		loop.run_until_complete(run(target, threads, tout, wdlist, redir, sslv, dserv, output, data, filext))
+		filter_out(target)
+		loop.run_until_complete(wayback(dserv, tout))
+		wm_filter()
+		dir_output(output, data)
+		loop.close()
+	except Exception as e:
+		print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')
