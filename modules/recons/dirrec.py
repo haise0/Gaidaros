@@ -203,7 +203,10 @@ def hammer(target, threads, tout, wdlist, redir, sslv, dserv, output, data, file
 		asyncio.set_event_loop(loop)
 		loop.run_until_complete(run(target, threads, tout, wdlist, redir, sslv, dserv, output, data, filext))
 		filter_out(target)
-		loop.run_until_complete(wayback(dserv, tout))
+		if not any(url in target for url in ["google.com", "bing.com", "yandex.com", "gibiru.com", "onesearch.com", "wiki.com", "search.givewater.com", "twitter.com"]):
+			loop.run_until_complete(wayback(dserv, tout))
+		else:
+			print('\n' + R + '[-]' + C + ' Search Engine detected. Skipping Wayback Machine ' + W + '\n')
 		wm_filter()
 		dir_output(output, data)
 		loop.close()
