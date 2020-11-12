@@ -253,13 +253,16 @@ def full_recon():
 # Light Scan
 def light_scan():
 	from modules.lights.apacheScan_CVE import checkVulns
+	from modules.lights.cms import cms
 	from modules.lights.site import scanSite
 	from modules.lights.virus import scanVirus
 	# 1. CVE Checkers
 	checkVulns(target, output, data)
-	# 2. Site Vulnerabilities Scan
+	# 2. CMS Detector
+	cms(target, output, data)
+	# 3. Site Vulnerabilities Scan
 	scanSite(target, output, data)
-	# 3. Virus Scan
+	# 4. Virus Scan
 	scanVirus(target, output, data)
 
 # OWASP Scan
