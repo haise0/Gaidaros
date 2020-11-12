@@ -25,7 +25,7 @@ def cms(target, output, data):
     
     try:
 
-        print ('\n\n' + G + '[+]' + Y + ' Malware Scanner :' + W + '\n')
+        print ('\n\n' + G + '[+]' + Y + ' CMS Detector :' + W + '\n')
 
         websiteToScan = target
 
@@ -49,7 +49,6 @@ def cms(target, output, data):
         websiteToScan = proto + websiteToScan
 
         # Check to see if the site is online
-        print()
         print(G + "[+]" + C + " Checking to see if the site is online..." + W)
 
         try:
@@ -296,7 +295,6 @@ def cms(target, output, data):
 
             print()
             print("Scan is now complete!")
-            print()
 
             if output != 'None':
                 result['CMS Detected'] = negatives_rp
