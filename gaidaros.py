@@ -71,6 +71,7 @@ recon_help.add_argument('--recon', help='Full Recon', action='store_true')
 # Light Scan parser
 light_help = parser.add_argument_group('Light Scan Options')
 light_help.add_argument('--cve', help='Potential Apache CVE', action='store_true')
+light_help.add_argument('--cms', help='Content Management System CMS Detector', action='store_true')
 light_help.add_argument('--site', help='Site Vulnerabilities Scanner', action='store_true')
 light_help.add_argument('--virus', help='Malware URL Scanner', action='store_true')
 light_help.add_argument('--light', help='Full Web Light Scan', action='store_true')
@@ -135,6 +136,7 @@ recon = args.recon
 
 # Light Scan args
 cve = args.cve
+cms = args.cms
 site = args.site
 virus = args.virus
 light = args.light
@@ -401,6 +403,10 @@ try:
 		from modules.lights.apacheScan_CVE import checkVulns
 		checkVulns(target, output, data)
 	
+	if cms == True:
+		from modules.lights.cms import cms
+		cms(target, output, data)
+	
 	if site == True:
 		from modules.lights.site import scanSite
 		scanSite(target, output, data)
@@ -434,7 +440,7 @@ try:
 	if full == True:
 		full_scan()
 	
-	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, site, virus, light, xss, cmdi, htmli, owasp, report, full]) != True:
+	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, cms, site, virus, light, xss, cmdi, htmli, owasp, report, full]) != True:
 		print ('\n' + R + '[-] Error : ' + C + 'Atleast One Argument is Required with URL' + W)
 		output = 'None'
 		sys.exit()
