@@ -334,7 +334,11 @@ try:
 	meta.update({'IP Address': str(ip)})
 	meta.update({'Start Time': str(start_time.strftime('%I:%M:%S %p'))})
 	data['module-Gaidaros'] = meta
-
+	
+	if output == 'txt':
+		already_text = True
+	else: already_text = False
+	
 	if output != 'None':
 		fname = os.getcwd() + '/dumps/' + hostname + '.' + output
 		output = {
@@ -458,6 +462,16 @@ try:
 		export(output, data)
 			
 	if report == True:
+		if not already_text:
+			output = 'txt'
+			fname = os.getcwd() + '/dumps/' + hostname + '.' + output
+			output = {
+				'format': output,
+				'file': fname,
+				'export': True
+				}
+			export(output, data)
+		else: pass
 		from modules.reports.report import report
 		report(target)
 		
