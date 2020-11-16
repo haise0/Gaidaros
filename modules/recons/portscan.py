@@ -38,7 +38,7 @@ def ps(ip, output, data, ps_mode):
 			for thread in threads:
 				thread.join()
 		else: 
-			print(R + "[!]" + C + " " + ps_mode + " mode is not supported please recheck" + W)
+			print(R + "[-]" + C + " \'" + ps_mode + "\' port scan mode is not supported please recheck\n" + W)
 			return
 
 	except Exception as e:
