@@ -56,7 +56,7 @@ def sock_conn(ip, port, output, result, timeout):
 		
 		if output != 'None':
 			result.update({str(port):service})
-	except:
+	except Exception as e:
 		if str(e) == 'port/proto not found':
 			print(G + '[+] ' + C + str(port).ljust(7) + W)
 		s.close()
