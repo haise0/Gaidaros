@@ -324,7 +324,7 @@ def cms(target, output, data):
 
             print()
             print(G + "[+]" + C + " Scan is now complete!" + W)
-            print()
+            print(" |  ")
 
             if is_WordPress:
                 print(R + "[!]" + C + " This site is detected to be currently using WordPress" + W)
