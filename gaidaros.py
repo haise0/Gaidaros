@@ -95,6 +95,7 @@ report_help.add_argument('--report', help='Post-scan Reporting', action='store_t
 
 # Extra Options parser
 ext_help = parser.add_argument_group('Extra Options')
+ext_help.add_argument('-pm', help='Port Scan Mode [ Default : fast ] [ Available : full ]')
 ext_help.add_argument('-t', type=int, help='Number of Threads [ Default : 30 ]')
 ext_help.add_argument('-T', type=float, help='Request Timeout [ Default : 30.0 ]')
 ext_help.add_argument('-w', help='Path to Wordlist [ Default : wordlists/dirb_common.txt ]')
@@ -117,7 +118,8 @@ ext_help.set_defaults(
 	m='UDP',
 	p=33434,
 	tt=1.0,
-	o='txt')
+	o='txt',
+    pm='fast')
 
 args = parser.parse_args()
 
@@ -166,6 +168,7 @@ mode = args.m
 port = args.p
 tr_tout = args.tt
 output = args.o
+ps_mode = args.pm
 
 import socket
 import requests
@@ -236,7 +239,7 @@ def full_recon():
 	# 4. Whois Lookup
 	whois_lookup(ip, output, data)
 	# 5. Port Scan
-	ps(ip, output, data)
+	ps(ip, output, data, ps_mode)
 	# 6. DNS Enumeration
 	dnsrec(domain, output, data)
 	# 7. Sub-Domain Enumeration
@@ -400,7 +403,7 @@ try:
 
 	if pscan == True:
 		from modules.recons.portscan import ps
-		ps(ip, output, data)
+		ps(ip, output, data, ps_mode)
 
 	if dirrec == True:
 		from modules.recons.dirrec import hammer
