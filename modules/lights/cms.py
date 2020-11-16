@@ -58,8 +58,8 @@ def cms(target, output, data):
         else:
             if onlineCheck.status_code >= 200 and onlineCheck.status_code < 400 :
                 print(" |  " + websiteToScan + " appears to be online.")
-                print()
-                print("Beginning scan...")
+                print(" |")
+                print(G + "[+]" + C + " Beginning scan..." + W)
                 print()
                 print(G + "[+]" + C + " Checking to see if the site is redirecting..." + W)
                 redirectCheck = requests.get(websiteToScan, headers=user_agent)
@@ -324,7 +324,7 @@ def cms(target, output, data):
 
             print()
             print(G + "[+]" + C + " Scan is now complete!" + W)
-            print(" |  ")
+            print(" |")
 
             if is_WordPress:
                 print(R + "[!]" + C + " This site is detected to be currently using WordPress" + W)
@@ -356,7 +356,7 @@ def cms(target, output, data):
             else:
                 print(G + "[+]" + C + " No phpMyAdmin traits detected on the website" + W)
 
-            if not any([is_WordPress, is_Joomla, is_Magento, is_Drupal, is_phpMyAdmin] and negatives_rp == []):
+            if not (any([is_WordPress, is_Joomla, is_Magento, is_Drupal, is_phpMyAdmin]) and negatives_rp == []):
                 negatives_rp.append("No CMS traits detected on the website\n")
 
             if output != 'None':
