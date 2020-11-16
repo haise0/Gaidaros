@@ -30,14 +30,8 @@ def ps(ip, output, data, ps_mode):
 				thread.join()
 		elif ps_mode == 'full':
 			print(G + '[+]' + C + ' Testing All Ports...' + W + '\n')
-			for x in range(0,49152):
-				t = threading.Thread(target=sock_conn, args=[ip, x, output, result])
-				t.daemon = True
-				t.start()
-				threads.append(t)
-				
-			for thread in threads:
-				thread.join()
+			for x in range(0,65535):
+				sock_conn(ip, x, output, result)
 		else: 
 			print(R + "\n[-]" + C + " \'" + ps_mode + "\' port scan mode is not supported please recheck\n" + W)
 			return
