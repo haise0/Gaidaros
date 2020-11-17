@@ -51,7 +51,7 @@ def ps(ip, output, data, ps_mode):
 def sock_conn(ip, port, output, result, timeout):
 	try:
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.settimeout(3)
+		s.settimeout(timeout)
 		s.connect((ip, port))
 		s.close()
 		service = socket.getservbyport(port, 'tcp')
