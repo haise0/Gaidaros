@@ -45,6 +45,7 @@ def report(target):
 
         doc_file_path = './reports/' + target + '.docx'
         virus(logs, document, level_array)
+        cms(logs, document, level_array)
         apache_cve(logs, document, level_array)
         site(logs, document, level_array)
 
