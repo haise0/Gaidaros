@@ -334,13 +334,13 @@ def cms(target, output, data):
 
             if is_Joomla:
                 print(R + "[!]" + C + " This site is detected to be currently using Joomla" + W)
-                negatives_rp.append("This site is detected to be currently using WordPress\n")
+                negatives_rp.append("This site is detected to be currently using Joomla\n")
             else:
                 print(G + "[+]" + C + " No Joomla traits detected on the website" + W)
                 
             if is_Magento:
                 print(R + "[!]" + C + " This site is detected to be currently using Magento" + W)
-                negatives_rp.append("This site is detected to be currently using WordPress\n")
+                negatives_rp.append("This site is detected to be currently using Magento\n")
             else:
                 print(G + "[+]" + C + " No Magento traits detected on the website" + W)
 
@@ -356,7 +356,7 @@ def cms(target, output, data):
             else:
                 print(G + "[+]" + C + " No phpMyAdmin traits detected on the website" + W)
 
-            if not (any([is_WordPress, is_Joomla, is_Magento, is_Drupal, is_phpMyAdmin]) and negatives_rp == []):
+            if not any([is_WordPress, is_Joomla, is_Magento, is_Drupal, is_phpMyAdmin]):
                 negatives_rp.append("No CMS traits detected on the website\n")
 
             if output != 'None':
