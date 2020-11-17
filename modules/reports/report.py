@@ -98,7 +98,29 @@ def apache_cve(logs, document, level_array):
         apache_cve_para.add_run('We recommend you and your security team to take a look at all these mentioned CVE and work out solutions as quickly as possible')
     else:
         pass
-# 2. Site Vulns
+# 2. CMS Detector
+def cms(logs, document, level_array):
+    cms_logs = []
+    for line in logs:
+        if re.search('This site is detected to be currently using ', line):
+            cms_logs.append(line.strip())
+        else:
+            pass
+    if cms_logs != []:
+        cms_data = "\n".join(cms_logs)
+        document.add_heading('CMS Detected on Site', level=1)
+        cms_para = document.add_paragraph()
+        cms_para.add_run('Risk Level : ').bold = True
+        run = cms_para.add_run('Medium\n')
+        font = run.font
+        font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+        level_array[1] = level_array[1] + 1
+        cms_para.add_run('Risk Description : ').bold = True
+        cms_para.add_run('A CMS (Content Management System) is a platform which helps in creating and delivering the web applications quickly. The hackers are intelligent enough to find out the loopholes or bugs in any software system. Thus, they regularly try to attack the CMS, its data, and in turn your business.\n')
+        cms_para.add_run(cms_data + '\n').italic = True
+        cms_para.add_run('Recommendation : ').bold = True
+        cms_para.add_run('Disable every of your CMS site signatures in order to prevent these potential CMS threat vectors')
+# 3. Site Vulns
 def site(logs, document, level_array):
     for line in logs:
         # Redirection
@@ -407,7 +429,7 @@ def site(logs, document, level_array):
             site_permissions_policy_para.add_run('The Permissions-Policy should be used in the response (server to client) to communicate the permissions policy that should be enforced by the client')
         else:
             pass
-# 3. VirusTotal
+# 4. VirusTotal
 def virus(logs, document, level_array):
     for line in logs:
         if re.search('Positives : ', line):
