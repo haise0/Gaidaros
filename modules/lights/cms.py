@@ -366,7 +366,7 @@ def cms(target, output, data):
         with open('conf/keys.json', 'r') as keyfile:
             json_read = keyfile.read()
         json_load = json.loads(json_read)
-        cms_key = json_load['api_keys'][1]['whatcms']
+        cms_key = json_load['api_keys'][2]['whatcms']
 
         # WhatCMS API
         print ('\n' + Y + '[!]' + ' WhatCMS Scanner :' + W + '\n')
