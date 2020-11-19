@@ -389,10 +389,10 @@ def cms(target, output, data):
 
             print()
             if cms_detected != None:
-                print(R + '[!]' + C + ' WhatCMS Scanner detected CMS on site : ' + R + str(cms_detected) + '\n\n' + W)
+                print(R + '[!]' + C + ' WhatCMS Scanner detected CMS on site : ' + R + str(cms_detected) + W)
                 negatives_rp.append("WhatCMS Scanner detected CMS on site : " + str(cms_detected) + "\n")
             else:
-                print(G + '[+]' + C + ' No Content Management System detected on site\n\n' + W)
+                print(G + '[+]' + C + ' No Content Management System detected on site' + W)
                 negatives_rp.append("WhatCMS Scanner could not detect any CMS on your site\n")
         
         if output != 'None':
