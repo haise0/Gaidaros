@@ -31,6 +31,7 @@ Gaidaros specializes in the Reconnaissance Phase with the help of OSINT Framewor
 - Full Reconnaissance
 - Apache Vuln Scanner
 - Common Web Application Vuln Scanner
+- OWASP Scanner
 - Post-scan Reporting
 
 ## Installation
