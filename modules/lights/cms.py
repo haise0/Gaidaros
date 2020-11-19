@@ -369,7 +369,7 @@ def cms(target, output, data):
         print ('\n\n' + Y + '[!]' + ' WhatCMS Scanner :' + W + '\n')
         if cms_key == None:
             print(R + '[-]' + C + ' Please provide a key in ./conf/keys.json for WhatCMS Scan' + W + '\n')
-            return
+            pass
         else:
             response = requests.get('https://whatcms.org/API/CMS?key=' + cms_key + '&url=' + target)
             json_data = json.loads(response.text)
