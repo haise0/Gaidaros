@@ -107,6 +107,10 @@ def cms(logs, document, level_array):
             cms_logs.append(line.strip())
         else:
             pass
+        if re.search('WhatCMS Scanner detected CMS on site : ', line):
+            cms_logs.append(line.strip())
+        else:
+            pass
     if cms_logs != []:
         cms_data = "\n".join(cms_logs)
         document.add_heading('CMS Detected on Site', level=1)
