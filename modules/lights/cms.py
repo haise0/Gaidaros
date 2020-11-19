@@ -1,4 +1,5 @@
 import requests
+import json
 
 # Colors
 R = '\033[31m' # red
@@ -361,7 +362,41 @@ def cms(target, output, data):
 
             if output != 'None':
                 result['CMS Detected'] = negatives_rp
+        
+        with open('conf/keys.json', 'r') as keyfile:
+            json_read = keyfile.read()
+        json_load = json.loads(json_read)
+        cms_key = json_load['api_keys'][1]['whatcms']
 
+        # WhatCMS API
+        print ('\n' + Y + '[!]' + ' WhatCMS Scanner :' + W + '\n')
+        if cms_key == None:
+            print(R + '[-]' + C + ' Please provide a key in ./conf/keys.json for WhatCMS Scan' + W + '\n')
+            return
+        else:
+            response = requests.get('https://whatcms.org/API/CMS?key=' + cms_key + '&url=' + target)
+            json_data = json.loads(response.text)
+
+            cms_detected = None
+            for k,v in json_data.items():
+                if k != 'result':
+                    print(G + '[+] ' + C + str(k).capitalize() + ' : ' + W + str(v))
+                elif k == 'result':
+                    print(G + '[+] ' +  C + str(k).capitalize() + ' :' + W)
+                    for key, value in v.items():
+                        print('      |--  ' + C + str(key) + ' : ' + R + str(value) + W)
+                        if key == 'name' and value != None:
+                            cms_detected = value
+                else:
+                    pass
+
+            print()
+            if cms_detected != None:
+                print(R + '[!]' + C + ' WhatCMS Scanner detected CMS on site : ' + R + str(cms_detected) + '\n\n' + W)
+                negatives_rp.append("WhatCMS Scanner detected CMS on site : " + str(cms_detected) + "\n")
+            else:
+                print(G + '[+]' + C + ' No Content Management System detected on site\n\n' + W)    
+            
     except Exception as e:
         print('\n\n' + R + '[-]' + C + ' Exception : ' + W + str(e))
         if output != 'None':
