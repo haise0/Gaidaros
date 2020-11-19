@@ -360,15 +360,12 @@ def cms(target, output, data):
             if not any([is_WordPress, is_Joomla, is_Magento, is_Drupal, is_phpMyAdmin]):
                 negatives_rp.append("No CMS traits detected on the website\n")
 
-            if output != 'None':
-                result['CMS Detected'] = negatives_rp
-        
+        # WhatCMS API
         with open('conf/keys.json', 'r') as keyfile:
             json_read = keyfile.read()
         json_load = json.loads(json_read)
         cms_key = json_load['api_keys'][2]['whatcms']
 
-        # WhatCMS API
         print ('\n\n' + Y + '[!]' + ' WhatCMS Scanner :' + W + '\n')
         if cms_key == None:
             print(R + '[-]' + C + ' Please provide a key in ./conf/keys.json for WhatCMS Scan' + W + '\n')
@@ -395,7 +392,11 @@ def cms(target, output, data):
                 print(R + '[!]' + C + ' WhatCMS Scanner detected CMS on site : ' + R + str(cms_detected) + '\n\n' + W)
                 negatives_rp.append("WhatCMS Scanner detected CMS on site : " + str(cms_detected) + "\n")
             else:
-                print(G + '[+]' + C + ' No Content Management System detected on site\n\n' + W)    
+                print(G + '[+]' + C + ' No Content Management System detected on site\n\n' + W)
+                negatives_rp.append("WhatCMS Scanner could not detect any CMS on your site\n")
+        
+        if output != 'None':
+                result['CMS Detected'] = negatives_rp  
             
     except Exception as e:
         print('\n\n' + R + '[-]' + C + ' Exception : ' + W + str(e))
