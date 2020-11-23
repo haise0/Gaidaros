@@ -37,7 +37,7 @@ def ps(ip, output, data, ps_mode):
 		elif ps_mode == 'full':
 			set_open_file_cmd = 'ulimit -Sn 66000'
 			
-			print(G + '[+]' + C + ' Testing All Ports...' + W + '\n')
+			print(G + '[+]' + C + ' Testing All Ports... Please make sure proper open files value is set' + W + '\n')
 			# 65535
 			os.system(set_open_file_cmd)
 			
@@ -59,9 +59,7 @@ def ps(ip, output, data, ps_mode):
 			return
 
 	except Exception as e:
-		print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')
-		if output != 'None':
-			result.update({'Exception':str(e)})
+		pass
 
 	if output != 'None':
 		ps_output(output, data, result)
