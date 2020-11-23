@@ -6,6 +6,7 @@ import threading
 from rich.progress import track
 import sys
 import os
+import time
 
 
 R = '\033[31m' # red
@@ -44,6 +45,7 @@ def ps(ip, output, data, ps_mode):
 				t = threading.Thread(target=sock_conn, args=[ip, port, output, result, 3])
 				t.daemon = True
 				t.start()
+				time.sleep(0.0005)
 
 			for thread in threads:
 				thread.join()
