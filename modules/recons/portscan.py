@@ -4,6 +4,8 @@
 import socket
 import threading
 from rich.progress import track
+import sys
+import os
 
 
 R = '\033[31m' # red
@@ -32,9 +34,19 @@ def ps(ip, output, data, ps_mode):
 			for thread in threads:
 				thread.join()
 		elif ps_mode == 'full':
+			set_open_file_cmd = 'uname -Sn 66000'
+			
 			print(G + '[+]' + C + ' Testing All Ports...' + W + '\n')
-			for x in track(range(0,65535)):
-				sock_conn(ip, x, output, result, 1)
+			# 65535
+			os.system(set_open_file_cmd)
+			
+			for port in track(range(0, 65535)):
+				t = threading.Thread(target=sock_conn, args=[ip, port, output, result, 3])
+				t.daemon = True
+				t.start()
+
+			for thread in threads:
+				thread.join()
 		else: 
 			print(R + "\n[-]" + C + " \'" + ps_mode + "\' port scan mode is not supported please recheck\n" + W)
 			return
