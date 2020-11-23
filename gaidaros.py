@@ -44,7 +44,7 @@ for pkg in pkg_list:
 	else:
 		pass
 if fail == True:
-	print('\n' + R + '[-]' + C + ' Please Execute ' + W + 'pip3 install -r requirements.txt' + C + ' to Install Missing Packages' + W + '\n')
+	print('\n' + R + '[-]' + C + ' Please Execute ' + W + 'sudo pip3 install -r requirements.txt' + C + ' to Install Missing Packages' + W + '\n')
 	exit()
 
 # Code version
