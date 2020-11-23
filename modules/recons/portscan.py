@@ -34,7 +34,7 @@ def ps(ip, output, data, ps_mode):
 			for thread in threads:
 				thread.join()
 		elif ps_mode == 'full':
-			set_open_file_cmd = 'uname -Sn 66000'
+			set_open_file_cmd = 'ulimit -Sn 66000'
 			
 			print(G + '[+]' + C + ' Testing All Ports...' + W + '\n')
 			# 65535
