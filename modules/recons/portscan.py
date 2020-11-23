@@ -41,14 +41,19 @@ def ps(ip, output, data, ps_mode):
 			# 65535
 			os.system(set_open_file_cmd)
 			
-			for port in track(range(0, 65535)):
-				t = threading.Thread(target=sock_conn, args=[ip, port, output, result, 3])
-				t.daemon = True
-				t.start()
-				time.sleep(0.0005)
+			try:
 
-			for thread in threads:
-				thread.join()
+				for port in track(range(0, 65535)):
+					t = threading.Thread(target=sock_conn, args=[ip, port, output, result, 3])
+					t.daemon = True
+					t.start()
+					time.sleep(0.0005)
+			
+				for thread in threads:
+					thread.join()
+
+			except Exception:
+				pass
 		else: 
 			print(R + "\n[-]" + C + " \'" + ps_mode + "\' port scan mode is not supported please recheck\n" + W)
 			return
