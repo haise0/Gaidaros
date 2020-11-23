@@ -31,6 +31,7 @@ def ps(ip, output, data, ps_mode):
 				t.daemon = True
 				t.start()
 				threads.append(t)
+				time.sleep(0.001)
 				
 			for thread in threads:
 				thread.join()
