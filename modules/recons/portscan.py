@@ -21,6 +21,7 @@ def ps(ip, output, data, ps_mode):
 
 	try:
 		print('\n\n' + Y + '[!]' + Y + ' Starting Port Scan...' + W + '\n')
+		print(Y + '[!]' + C + ' Please make sure proper open files value is set for full scan mode\n' + W)
 		
 		if ps_mode == 'fast':
 			print(G + '[+]' + C + ' Testing Top 1000 Ports...' + W + '\n')
