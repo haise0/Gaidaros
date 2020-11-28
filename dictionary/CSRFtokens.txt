@@ -1,0 +1,13 @@
+csrf_token
+CSRFName
+CSRFToken
+anticsrf
+__RequestVerificationToken
+token
+csrf
+YII_CSRF_TOKEN
+yii_anticsrf
+[_token]
+_csrf_token
+csrfmiddlewaretoken
+__VIEWSTATE
