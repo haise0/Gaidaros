@@ -10,22 +10,6 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-COMMON_CSRF_ATTRIBUTES = [
-    'csrf_token',
-    'CSRFName',                   # OWASP CSRF_Guard
-    'CSRFToken',                  # OWASP CSRF_Guard
-    'anticsrf',                   # AntiCsrfParam.java
-    '__RequestVerificationToken', # AntiCsrfParam.java
-    'token',
-    'csrf',
-    'YII_CSRF_TOKEN',             # http://www.yiiframework.com/
-    'yii_anticsrf'                # http://www.yiiframework.com/
-    '[_token]',                   # Symfony 2.x
-    '_csrf_token',                # Symfony 1.4
-    'csrfmiddlewaretoken',        # Django 1.5
-    "__VIEWSTATE",		  # FAP FPT
-]
-
 R = '\033[31m' # red
 G = '\033[32m' # green
 C = '\033[36m' # cyan
@@ -74,6 +58,8 @@ def scan_csrf(url, value_forms_malforms, csrf_data):
         # returning value
         is_vulnerable = True
         # iterate over all forms
+        CSRFtokens_path = "./dictionary/CSRFtokens.txt"
+        COMMON_CSRF_ATTRIBUTES = open(CSRFtokens_path, "r")
         for form in forms:
             form_details = get_form_details(form)
             if form_details == None:
@@ -81,7 +67,7 @@ def scan_csrf(url, value_forms_malforms, csrf_data):
                 break
             for attributes in COMMON_CSRF_ATTRIBUTES:
                 for i in form_details:
-                    if attributes == i:
+                    if attributes.rstrip() == i:
                         is_vulnerable = False
                         print(G + "[+]" + f" Cross Site Request Forgery not detected on {url}" + W)
                         csrf_data.append(f"Cross Site Request Forgery not detected on {url}\n")
