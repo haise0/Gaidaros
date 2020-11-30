@@ -74,7 +74,7 @@ light_help.add_argument('--cve', help='Potential Apache CVE', action='store_true
 light_help.add_argument('--cms', help='Content Management System CMS Detector', action='store_true')
 light_help.add_argument('--site', help='Site Vulnerabilities Scanner', action='store_true')
 light_help.add_argument('--virus', help='Malware URL Scanner', action='store_true')
-light_help.add_argument('--internal', help='Configuration File Scan', action='store_true')
+light_help.add_argument('--internal', help='Configuration File Scan [UNDER DEVELOPMENT]', action='store_true')
 light_help.add_argument('--light', help='Full Web Light Scan', action='store_true')
 
 # OWASP Scan parser
@@ -447,9 +447,11 @@ try:
 	if virus == True:
 		from modules.lights.virus import scanVirus
 		scanVirus(target, output, data)
+		
 	if internal == True:
 		from modules.lights.internal import internal
 		internal(target, output, data)
+		
 	if light == True:
 		light_scan()
 	
