@@ -1,6 +1,14 @@
 from rich.console import Console
 from rich.table import Table
 
+
+R = '\033[31m' # red
+G = '\033[32m' # green
+C = '\033[36m' # cyan
+W = '\033[0m'  # white
+Y = '\033[33m' # yellow
+
+
 def table_checklist(recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, pscan, dirrec, light, cve, cms, site, virus, owasps, xss, csrf, sqli, cmdi, htmli, report, output, full, trace):
     
     print ('\n\n' + G + '[+]' + Y + ' Confirmation :' + W + '\n')
