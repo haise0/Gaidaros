@@ -353,7 +353,7 @@ try:
 		sys.exit()
 		
 	from modules.supports.rich_table import table_checklist
-	table_checklist(recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, pscan, dirrec, light, cve, cms, site, virus, owasps, xss, csrf, sqli, cmdi, htmli, report, output, full, trace)
+	table_checklist(recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, pscan, dirrec, light, cve, cms, site, virus, owasp, xss, csrf, sqli, cmdi, htmli, report, output, full, trace)
 	
 	if output == 'txt':
 		already_text = True
