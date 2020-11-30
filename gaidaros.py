@@ -354,6 +354,12 @@ try:
 		
 	from modules.supports.rich_table import table_checklist
 	table_checklist(recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, pscan, dirrec, light, cve, cms, site, virus, owasp, xss, csrf, sqli, cmdi, htmli, report, output, full, trace)
+	user_confirm = input(G + '\n[?]' + C + ' Please confirm the options (Y/N) : ')
+	if user_confirm.lower().startswith("y"):
+		pass
+	else:
+		print(G + '\n[+]' + C + ' Quitting Program. Please re-select the options you want for the checklist\n')
+		sys.exit()
 	
 	if output == 'txt':
 		already_text = True
