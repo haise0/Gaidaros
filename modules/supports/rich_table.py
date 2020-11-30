@@ -246,7 +246,7 @@ def table_checklist(recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, psca
     else: 
         report_check = ""
     table.add_row(
-        "\t|- [yellow]Report[/yellow]: Post Scan Docx Reporting",
+        "\t|- [yellow]Report[/yellow]: Post-scan Docx Reporting",
         "[green]" + report_check + "[/green]",
     )
 
