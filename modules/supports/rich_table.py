@@ -2,7 +2,9 @@ from rich.console import Console
 from rich.table import Table
 
 def table_checklist(recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, pscan, dirrec, light, cve, cms, site, virus, owasps, xss, csrf, sqli, cmdi, htmli, report, output, full, trace):
-
+    
+    print ('\n\n' + G + '[+]' + Y + ' Confirmation :' + W + '\n')
+    
     ## xu ly 4 truong hop: full, recon, light, owasps
     if full:
         recon = True
