@@ -470,9 +470,11 @@ try:
 	if htmli == True:
 		from modules.owasps.htmli import htmli
 		htmli(target, output, data)
+		
 	if csrf == True:
 		from modules.owasps.csrf import csrf
 		csrf(target, output, data)
+		
 	if owasp == True:
 		owasp_scan()
 
