@@ -347,6 +347,14 @@ try:
 	meta.update({'Start Time': str(start_time.strftime('%I:%M:%S %p'))})
 	data['module-Gaidaros'] = meta
 	
+	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, cms, site, virus, internal, light, xss, cmdi, htmli, csrf, owasp, report, full]) != True:
+		print ('\n' + R + '[-] Error : ' + C + 'Atleast One Argument is Required with URL' + W)
+		output = 'None'
+		sys.exit()
+		
+	from modules.supports.rich_table import table_checklist
+	table_checklist(recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, pscan, dirrec, light, cve, cms, site, virus, owasps, xss, csrf, sqli, cmdi, htmli, report, output, full, trace)
+	
 	if output == 'txt':
 		already_text = True
 	else: already_text = False
@@ -462,11 +470,6 @@ try:
 
 	if full == True:
 		full_scan()
-	
-	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, cms, site, virus, internal, light, xss, cmdi, htmli, csrf, owasp, report, full]) != True:
-		print ('\n' + R + '[-] Error : ' + C + 'Atleast One Argument is Required with URL' + W)
-		output = 'None'
-		sys.exit()
 	
 	end_time = datetime.datetime.now() - start_time
 	print ('\n' + G + '[+]' + C + ' Completed in ' + W + str(end_time) + '\n')
