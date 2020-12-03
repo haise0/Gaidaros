@@ -11,3 +11,4 @@ yii_anticsrf
 _csrf_token
 csrfmiddlewaretoken
 __VIEWSTATE
+user_token
