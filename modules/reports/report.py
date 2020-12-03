@@ -22,8 +22,7 @@ def report(target, fname):
         else: pass
         fname = fname[:-4]
         fname = fname + ".txt"
-        log_path = "./dumps/"
-        f = open(log_path + fname, "r")
+        f = open(fname, "r")
         logs = f.readlines()
 
         document = Document()
