@@ -43,7 +43,10 @@ def report(target, fname):
 
         table = document.add_table(rows=1, cols=2)
 
-        doc_file_path = './reports/' + target + '.docx'
+        doc_file_path = fname[:-4]
+        doc_file_path = doc_file_path + ".docx"
+        doc_file_path = doc_file_path.replace('/dumps/', '/reports/', 1)
+        
         virus(logs, document, level_array)
         cms(logs, document, level_array)
         apache_cve(logs, document, level_array)
