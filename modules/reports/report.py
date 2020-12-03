@@ -12,7 +12,7 @@ Y = '\033[33m' # yellow
 
 
 ## main
-def report(target):
+def report(target, fname):
     try:
         if target.startswith(('http://', 'https://')):
             target = target.replace('http://', '').replace('https://', '')
@@ -20,9 +20,10 @@ def report(target):
         if target.endswith('/') == True:
             target = target[:-1]
         else: pass
-        file_name = target + ".txt"
+        fname = fname[:-4]
+        fname = fname + ".txt"
         log_path = "./dumps/"
-        f = open(log_path + file_name, "r")
+        f = open(log_path + fname, "r")
         logs = f.readlines()
 
         document = Document()
