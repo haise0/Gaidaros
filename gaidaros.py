@@ -503,7 +503,7 @@ try:
 			export(output, data)
 		else: pass
 		from modules.reports.report import report
-		report(fname)
+		report(target, fname)
 		
 	sys.exit()
 except KeyboardInterrupt:
