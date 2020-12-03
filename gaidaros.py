@@ -6,6 +6,7 @@ import atexit
 import importlib.util
 import platform
 import argparse
+import datetime
 
 
 # Colors
@@ -366,7 +367,7 @@ try:
 	else: already_text = False
 	
 	if output != 'None':
-		fname = os.getcwd() + '/dumps/' + hostname + '.' + output
+		fname = os.getcwd() + '/dumps/' + hostname + datetime.datetime.now().strftime("_%d%m%Y_%H%M") + '.' + output
 		output = {
 			'format': output,
 			'file': fname,
@@ -493,7 +494,7 @@ try:
 	if report == True:
 		if not already_text:
 			output = 'txt'
-			fname = os.getcwd() + '/dumps/' + hostname + '.' + output
+			fname = os.getcwd() + '/dumps/' + hostname + datetime.datetime.now().strftime("_%d%m%Y_%H%M") + '.' + output
 			output = {
 				'format': output,
 				'file': fname,
@@ -502,7 +503,7 @@ try:
 			export(output, data)
 		else: pass
 		from modules.reports.report import report
-		report(target)
+		report(fname)
 		
 	sys.exit()
 except KeyboardInterrupt:
