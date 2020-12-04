@@ -47,10 +47,14 @@ def report(target, fname):
         doc_file_path = doc_file_path + ".docx"
         doc_file_path = doc_file_path.replace('/dumps/', '/reports/', 1)
         
+        # Light Scan reporting
         virus(logs, document, level_array)
         cms(logs, document, level_array)
         apache_cve(logs, document, level_array)
         site(logs, document, level_array)
+        # OWASP Scan reporting
+        xss(logs, document, level_array)
+        sqli(logs, document, level_array)
 
         # create overall table
         records = (
@@ -459,3 +463,83 @@ def virus(logs, document, level_array):
             else: pass
 
 ## OWASP Scan
+def sqli(logs, document, level_array):
+    for line in logs:
+        if re.search('SQL Injection Detected on ', line):
+            document.add_heading('SQL Injection Detected', level=1)
+            sqli_para = document.add_paragraph()
+            sqli_para.add_run('Risk Level : ').bold = True
+            run = sqli_para.add_run('High\n')
+            font = run.font
+            font.color.rgb = RGBColor(0xFF, 0x00, 0x00)
+            level_array[2] = level_array[2] + 1
+            sqli_para.add_run('Risk Description : ').bold = True
+            sqli_para.add_run('SQL injection attacks pose a serious security threat to organizations. A successful SQL injection attack can result in confidential data being deleted, lost or stolen; websites being defaced; unauthorized access to systems or accounts and, ultimately, compromise of individual machines or entire networks\n')
+            sqli_para.add_run(line.strip() + '\n').italic = True
+            sqli_para.add_run('Recommendation : ').bold = True
+            sqli_para.add_run('The best practice for SQLi prevention : Parameterized statements are recommended to make sure that the parameters (i.e. inputs) passed into SQL statements are treated in a safe manner')
+
+def xss(logs, document, level_array):
+    for line in logs:
+        if re.search('Cross-Site Scripting XSS Detected on ', line):
+            document.add_heading('Cross-Site Scripting XSS Detected', level=1)
+            xss_para = document.add_paragraph()
+            xss_para.add_run('Risk Level : ').bold = True
+            run = xss_para.add_run('High\n')
+            font = run.font
+            font.color.rgb = RGBColor(0xFF, 0x00, 0x00)
+            level_array[2] = level_array[2] + 1
+            xss_para.add_run('Risk Description : ').bold = True
+            xss_para.add_run('Exploiting XSS vulnerability, an attacker can steal or hijack sessions, carry out very successful phishing attacks and effectively can do anything that the victim can\n')
+            xss_para.add_run(line.strip() + '\n').italic = True
+            xss_para.add_run('Recommendation : ').bold = True
+            xss_para.add_run('There are several ways to prevent XSS including : filtering inputs, encoding output data, include appropriate response headers, Content Security Policy,...')
+
+def cmdi(logs, document, level_array):
+    for line in logs:
+        if re.search('Command Injection Detected on ', line):
+            document.add_heading('OS Command Injection Detected', level=1)
+            xss_para = document.add_paragraph()
+            xss_para.add_run('Risk Level : ').bold = True
+            run = xss_para.add_run('High\n')
+            font = run.font
+            font.color.rgb = RGBColor(0xFF, 0x00, 0x00)
+            level_array[2] = level_array[2] + 1
+            xss_para.add_run('Risk Description : ').bold = True
+            xss_para.add_run('By exploiting a command injection vulnerability in a vulnerable application, attackers can add additional commands or inject their own operating system commands. This means that during a command injection attack, an attacker can easily take complete control of the host operating system of the web server\n')
+            xss_para.add_run(line.strip() + '\n').italic = True
+            xss_para.add_run('Recommendation : ').bold = True
+            xss_para.add_run('By far the most effective way to prevent OS command injection vulnerabilities is to never call out to OS commands from application-layer code. If it is considered unavoidable to call out to OS commands with user-supplied input, then strong input validation must be performed')
+
+
+def htmli(logs, document, level_array):
+    for line in logs:
+        if re.search('HTML Injection Detected on ', line):
+            document.add_heading('HTML Injection Detected', level=1)
+            xss_para = document.add_paragraph()
+            xss_para.add_run('Risk Level : ').bold = True
+            run = xss_para.add_run('High\n')
+            font = run.font
+            font.color.rgb = RGBColor(0xFF, 0x00, 0x00)
+            level_array[2] = level_array[2] + 1
+            xss_para.add_run('Risk Description : ').bold = True
+            xss_para.add_run('HTML injections (HyperText Markup Language injections) are vulnerabilities that are very similar to Cross-site Scripting (XSS). The delivery mechanisms are exactly the same but the injected content is pure HTML tags, not a script like in the case of XSS. HTML injections are less dangerous than XSS but they may still be used for malicious purposes\n')
+            xss_para.add_run(line.strip() + '\n').italic = True
+            xss_para.add_run('Recommendation : ').bold = True
+            xss_para.add_run('Defense against HTML injections should be combined with defense against Cross-site Scripting. Just like in the case of XSS, you can either aim to filter out the HTML content from the input (but a lot of tricks can be used to evade filters) or escape all HTML tags')
+
+def csrf(logs, document, level_array):
+    for line in logs:
+        if re.search('Cross Site Request Forgery detected on ', line):
+            document.add_heading('Missing CSRF Tokens', level=1)
+            xss_para = document.add_paragraph()
+            xss_para.add_run('Risk Level : ').bold = True
+            run = xss_para.add_run('Medium\n')
+            font = run.font
+            font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+            level_array[2] = level_array[2] + 1
+            xss_para.add_run('Risk Description : ').bold = True
+            xss_para.add_run('Cross-site Request Forgery, also known as CSRF, Sea Surf, or XSRF, is an attack whereby an attacker tricks a victim into performing actions on their behalf. The impact of the attack depends on the level of permissions that the victim has\n')
+            xss_para.add_run(line.strip() + '\n').italic = True
+            xss_para.add_run('Recommendation : ').bold = True
+            xss_para.add_run('CSRF Tokens seems to be missing on the target website. It protects the form against Cross-site Request Forgery attacks because an attacker would also need to guess the token to successfully trick a victim into sending a valid request')
