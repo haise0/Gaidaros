@@ -119,7 +119,7 @@ def scan_sqli(url, value_forms_malforms, sqli_data):
                 continue
             content = submit_form(form_details, url, sqli_script).content.decode('latin-1')
             if "You have an error in your sql syntax" in content or "warning: mysql" in content or "unclosed quotation mark after the character string" in content:
-                print(R + f"[-] SQL Injection Detected on {url}" + W)
+                print(R + f"[-] SQLi Detected on {url}" + W)
                 print(R + "[-]" + C + " Form details:" + W)
                 pprint(form_details)
                 sqli_data.append(f"SQL Injection Detected on {url} | Form details: {form_details}")
@@ -129,11 +129,11 @@ def scan_sqli(url, value_forms_malforms, sqli_data):
                 # won't break because we want to print other available vulnerable forms
 
         if is_vulnerable == True:
-            print(R + "[-]" + f" SQL Injection detected on {url}" + W)
-            sqli_data.append(f"SQL Injection detected on {url}\n")
+            print(R + "[-]" + f" SQLi detected on {url}" + W)
+            sqli_data.append(f"SQLi detected on {url}\n")
         else:
-            print(G + "[+]" + f" SQL Injection not detected on {url}" + W)
-            sqli_data.append(f"SQL Injection not detected on {url}\n")
+            print(G + "[+]" + f" SQLi not detected on {url}" + W)
+            sqli_data.append(f"SQLi not detected on {url}\n")
 
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
