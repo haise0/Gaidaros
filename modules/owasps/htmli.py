@@ -111,9 +111,8 @@ def scan_htmli(url, value_forms_malforms, htmli_data):
             if html_script in content:
                 print(R + f"[-] HTMLi Detected on {url}" + W)
                 print(R + "[-]" + C + " Form details:" + W)
-                pprint(form_details.strip())
-                addedline = form_details.strip() + "\n"
-                htmli_data.append(f"HTML Injection Detected on {url} | Form details: {addedline}")
+                pprint(form_details)
+                htmli_data.append(f"HTML Injection Detected on {url} | Form details: {form_details}")
                 print(W)
                 value_forms_malforms[1] = value_forms_malforms[1] + 1
                 is_vulnerable = True
