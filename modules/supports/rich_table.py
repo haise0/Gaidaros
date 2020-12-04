@@ -174,11 +174,6 @@ def table_checklist(recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, psca
         "\t|- [yellow]Virus[/yellow]: Malware URL Scanner",
         "[green]" + virus_check + "[/green]",
     )
-    # not yet internal
-    table.add_row(
-        "\t|- [yellow]Internal[/yellow]: Configuration File Scan",
-        "[green][/green]",
-    )
 
     # OWASP
     if owasps:
