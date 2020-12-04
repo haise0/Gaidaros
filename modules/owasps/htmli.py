@@ -119,11 +119,11 @@ def scan_htmli(url, value_forms_malforms, htmli_data):
                 # won't break because we want to print other available vulnerable forms
 
         if is_vulnerable == True:
-            print(R + "[-]" + f" HTML Injection detected on {url}" + W)
-            htmli_data.append(f"HTML Injection detected on {url}\n")
+            print(R + "[-]" + f" HTMLi detected on {url}" + W)
+            htmli_data.append(f"HTMLi detected on {url}\n")
         else:
-            print(G + "[+]" + f" HTML Injection not detected on {url}" + W)
-            htmli_data.append(f"HTML Injection not detected on {url}\n")
+            print(G + "[+]" + f" HTMLi not detected on {url}" + W)
+            htmli_data.append(f"HTMLi not detected on {url}\n")
 
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
