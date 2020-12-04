@@ -112,7 +112,8 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
                 print(R + f"[-] CMDi Detected on {url}" + W)
                 print(R + "[-]" + C + " Form details:" + W)
                 pprint(form_details.strip())
-                cmdi_data.append(f"Command Injection Detected on {url} | Form details: {form_details.strip() + '\n'}")
+                addedline = form_details.strip() + "\n"
+                cmdi_data.append(f"Command Injection Detected on {url} | Form details: {addedline}")
                 print(W)
                 value_forms_malforms[1] = value_forms_malforms[1] + 1
                 is_vulnerable = True
