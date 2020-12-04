@@ -108,7 +108,7 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
             if form_details == None:
                 break
             content = submit_form(form_details, url, os_script).content.decode('latin-1')
-            if "PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data" in content:
+            if "PING 127.0.0.1" in content:
                 print(R + f"[-] Command Injection Detected on {url}" + W)
                 print(R + "[-]" + C + " Form details:" + W)
                 pprint(form_details)
