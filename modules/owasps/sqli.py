@@ -112,7 +112,7 @@ def scan_sqli(url, value_forms_malforms, sqli_data):
                 print(R + f"[-] Potential SQL Injection Detected on {url}: Response Code 500 Internal Server Error" + W)
                 print(R + "[-]" + C + " Form details:" + W)
                 pprint(form_details.strip())
-                sqli_data.append(f"Potential SQL Injection Detected on {url}: Code 500 Internal Server Error | Form details: {form_details.strip() + "\n"}")
+                sqli_data.append(f"Potential SQL Injection Detected on {url}: Code 500 Internal Server Error | Form details: {form_details.strip() + '\n'}")
                 print(W)
                 value_forms_malforms[1] = value_forms_malforms[1] + 1
                 is_vulnerable = True
