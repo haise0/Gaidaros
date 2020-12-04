@@ -55,6 +55,9 @@ def report(target, fname):
         # OWASP Scan reporting
         xss(logs, document, level_array)
         sqli(logs, document, level_array)
+        cmdi(logs, document, level_array)
+        htmli(logs, document, level_array)
+        csrf(logs, document, level_array)
 
         # create overall table
         records = (
