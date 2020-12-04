@@ -273,7 +273,7 @@ def light_scan():
 	# 4. Virus Scan
 	scanVirus(target, output, data)
 	# 5. Internal Configuration File Scan
-	internal(target, output, data)
+	#internal(target, output, data)
 
 # OWASP Scan
 def owasp_scan():
