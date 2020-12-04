@@ -111,9 +111,8 @@ def scan_xss(url, value_forms_malforms, xss_data):
             if js_script in content:
                 print(R + f"[-] XSS Detected on {url}" + W)
                 print(R + "[-]" + C + " Form details:" + W)
-                pprint(form_details.strip())
-                addedline = form_details.strip() + "\n"
-                xss_data.append(f"Cross-Site Scripting XSS Detected on {url} | Form details: {addedline}")
+                pprint(form_details)
+                xss_data.append(f"Cross-Site Scripting XSS Detected on {url} | Form details: {form_details}")
                 print(W)
                 value_forms_malforms[1] = value_forms_malforms[1] + 1
                 is_vulnerable = True
