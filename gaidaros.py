@@ -75,7 +75,6 @@ light_help.add_argument('--cve', help='Potential Apache CVE', action='store_true
 light_help.add_argument('--cms', help='Content Management System CMS Detector', action='store_true')
 light_help.add_argument('--site', help='Site Vulnerabilities Scanner', action='store_true')
 light_help.add_argument('--virus', help='Malware URL Scanner', action='store_true')
-light_help.add_argument('--internal', help='Configuration File Scan [UNDER DEVELOPMENT]', action='store_true')
 light_help.add_argument('--light', help='Full Web Light Scan', action='store_true')
 
 # OWASP Scan parser
@@ -143,7 +142,6 @@ cve = args.cve
 cms = args.cms
 site = args.site
 virus = args.virus
-internal = args.internal
 light = args.light
 
 # OWASP Scan args
@@ -263,7 +261,6 @@ def light_scan():
 	from modules.lights.cms import cms
 	from modules.lights.site import scanSite
 	from modules.lights.virus import scanVirus
-	from modules.lights.internal import internal
 	# 1. CVE Checkers
 	checkVulns(target, output, data)
 	# 2. CMS Detector
@@ -272,8 +269,6 @@ def light_scan():
 	scanSite(target, output, data)
 	# 4. Virus Scan
 	scanVirus(target, output, data)
-	# 5. Internal Configuration File Scan
-	#internal(target, output, data)
 
 # OWASP Scan
 def owasp_scan():
@@ -348,7 +343,7 @@ try:
 	meta.update({'Start Time': str(start_time.strftime('%I:%M:%S %p'))})
 	data['module-Gaidaros'] = meta
 	
-	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, cms, site, virus, internal, light, xss, cmdi, htmli, csrf, owasp, report, full]) != True:
+	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, cms, site, virus, light, xss, cmdi, htmli, csrf, owasp, report, full]) != True:
 		print ('\n' + R + '[-] Error : ' + C + 'Atleast One Argument is Required with URL' + W)
 		output = 'None'
 		sys.exit()
@@ -448,10 +443,6 @@ try:
 	if virus == True:
 		from modules.lights.virus import scanVirus
 		scanVirus(target, output, data)
-		
-	if internal == True:
-		from modules.lights.internal import internal
-		internal(target, output, data)
 		
 	if light == True:
 		light_scan()
