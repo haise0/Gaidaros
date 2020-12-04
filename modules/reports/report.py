@@ -540,7 +540,7 @@ def csrf(logs, document, level_array):
             run = xss_para.add_run('Medium\n')
             font = run.font
             font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
-            level_array[2] = level_array[2] + 1
+            level_array[1] = level_array[1] + 1
             xss_para.add_run('Risk Description : ').bold = True
             xss_para.add_run('Cross-site Request Forgery, also known as CSRF, Sea Surf, or XSRF, is an attack whereby an attacker tricks a victim into performing actions on their behalf. The impact of the attack depends on the level of permissions that the victim has\n')
             xss_para.add_run(line.strip() + '\n').italic = True
