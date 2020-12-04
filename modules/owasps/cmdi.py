@@ -111,8 +111,8 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
             if "PING 127.0.0.1" in content:
                 print(R + f"[-] CMDi Detected on {url}" + W)
                 print(R + "[-]" + C + " Form details:" + W)
-                pprint(form_details)
-                cmdi_data.append(f"Command Injection Detected on {url} | Form details: {form_details}")
+                pprint(form_details.strip())
+                cmdi_data.append(f"Command Injection Detected on {url} | Form details: {form_details.strip() + "\n"}")
                 print(W)
                 value_forms_malforms[1] = value_forms_malforms[1] + 1
                 is_vulnerable = True
