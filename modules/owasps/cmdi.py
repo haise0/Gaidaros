@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup as bs
 from urllib.parse import urljoin
 import requests
 import urllib3
+import csv
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -99,31 +100,54 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
         print(G + "[+]" + C + f" Detected {len(forms)} forms on {url}" + W)
         cmdi_data.append(f"Detected {len(forms)} forms on {url}")
         value_forms_malforms[0] = value_forms_malforms[0] + len(forms)
-        os_script = "a | ping -c 2 127.0.0.1"
+        #os_script = "a | ping -c 2 127.0.0.1"
+        #getpayload
+        payload_path = './dictionary/payload.csv'
+        inps = []
+        outcs = []
+        with open(payload_path) as f:
+            readCSV = csv.reader(f, delimiter=',')
+            for row in readCSV:
+                if not row:
+                    continue
+                inp = row[0]
+                outc = row[1]
+                #print('in: ',inp,', out: ',outc)
+                inps.append(inp)
+                outcs.append(outc)
+        length = len(inps)
         # returning value
         is_vulnerable = False
         # iterate over all forms
-        for form in forms:
-            form_details = get_form_details(form)
-            if form_details == None:
+        print('Start loop payload:')
+        for i in range(length):
+            inc = inps[i]
+            outc = outcs[i]
+            os_script = inc
+            print('Loop ',i+1,': In:',inc,'Out:',outc)
+            for form in forms:
+                form_details = get_form_details(form)
+                if form_details == None:
+                    break
+                content = submit_form(form_details, url, os_script).content.decode('latin-1')
+                if outc in content:
+                    print(R + f"[-] Command Injection Detected on {url}" + W)
+                    print(R + "[-]" + C + " Form details:" + W)
+                    pprint(form_details)
+                    cmdi_data.append(f"Command Injection Detected on {url} | Form details: {form_details}")
+                    print(W)
+                    value_forms_malforms[1] = value_forms_malforms[1] + 1
+                    is_vulnerable = True
+                    # won't break because we want to print other available vulnerable forms
+            if is_vulnerable == True:
                 break
-            content = submit_form(form_details, url, os_script).content.decode('latin-1')
-            if "PING 127.0.0.1" in content:
-                print(R + f"[-] CMDi Detected on {url}" + W)
-                print(R + "[-]" + C + " Form details:" + W)
-                pprint(form_details)
-                cmdi_data.append(f"Command Injection Detected on {url} | Form details: {form_details}")
-                print(W)
-                value_forms_malforms[1] = value_forms_malforms[1] + 1
-                is_vulnerable = True
-                # won't break because we want to print other available vulnerable forms
 
         if is_vulnerable == True:
-            print(R + "[-]" + f" CMDi detected on {url}" + W)
-            cmdi_data.append(f"CMDi detected on {url}\n")
+            print(R + "[-]" + f" Command Injection detected on {url}" + W)
+            cmdi_data.append(f"Command Injection detected on {url}\n")
         else:
-            print(G + "[+]" + f" CMDi not detected on {url}" + W)
-            cmdi_data.append(f"CMDi not detected on {url}\n")
+            print(G + "[+]" + f" Command Injection not detected on {url}" + W)
+            cmdi_data.append(f"Command Injection not detected on {url}\n")
 
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
@@ -161,7 +185,7 @@ def cmdi(target, output, data):
             for link in links:
                 url = link.get('href')
                 if url != None:
-                    if not ("http://" in url or "https://" in url):
+                    if not "http://" in url or "https://" in url:
                         url = target +  "/" + url
                     if not '#' in url:
                         if domain in url:
