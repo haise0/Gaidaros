@@ -102,7 +102,7 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
         value_forms_malforms[0] = value_forms_malforms[0] + len(forms)
         #os_script = "a | ping -c 2 127.0.0.1"
         #getpayload
-        payload_path = './dictionary/payload.csv'
+        payload_path = './dictionary/cmdipayload.csv'
         inps = []
         outcs = []
         with open(payload_path) as f:
