@@ -88,7 +88,7 @@ def submit_form(form_details, url, value):
         print('\n' + R + '[-] Exception : ' + C + str(e) + W)
 
 def csv_reader():
-    payload_path = './dictionary/payload.csv'
+    payload_path = './dictionary/cmdipayload.csv'
     try:
         with open(payload_path) as f:
             readCSV = csv.reader(f, delimiter=',')
@@ -118,7 +118,7 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
         print(G + "[+]" + C + f" Detected {len(forms)} forms on {url}" + W)
         cmdi_data.append(f"Detected {len(forms)} forms on {url}")
         value_forms_malforms[0] = value_forms_malforms[0] + len(forms)
-        payload_path = './dictionary/payload.csv'
+        payload_path = './dictionary/cmdipayload.csv'
         inps = []
         outcs = []
         with open(payload_path) as f:
