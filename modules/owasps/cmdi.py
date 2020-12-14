@@ -87,6 +87,24 @@ def submit_form(form_details, url, value):
     except Exception as e:
         print('\n' + R + '[-] Exception : ' + C + str(e) + W)
 
+def csv_reader():
+    payload_path = './dictionary/payload.csv'
+    try:
+        with open(payload_path) as f:
+            readCSV = csv.reader(f, delimiter=',')
+            i = 0
+            print("[+] Importing payload from " + payload_path)
+            for row in readCSV:
+                if not row:
+                    continue
+                if i < 10:
+                    print("   |Loop " + str(i+1) + ": " + row[0])
+                    i = i + 1
+                else:
+                    print("   |...\n")
+                    break
+    except Exception as E:
+        print(R + '[-] Exception : ' + C + str(e) + W)
 
 def scan_cmdi(url, value_forms_malforms, cmdi_data):
     """
@@ -100,12 +118,9 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
         print(G + "[+]" + C + f" Detected {len(forms)} forms on {url}" + W)
         cmdi_data.append(f"Detected {len(forms)} forms on {url}")
         value_forms_malforms[0] = value_forms_malforms[0] + len(forms)
-        #os_script = "a | ping -c 2 127.0.0.1"
-        #getpayload
-        payload_path = './dictionary/cmdipayload.csv'
+        payload_path = './dictionary/payload.csv'
         inps = []
         outcs = []
-        payloads = 0
         with open(payload_path) as f:
             readCSV = csv.reader(f, delimiter=',')
             for row in readCSV:
@@ -113,23 +128,20 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
                     continue
                 inp = row[0]
                 outc = row[1]
-                #print('in: ',inp,', out: ',outc)
                 inps.append(inp)
                 outcs.append(outc)
-                payloads = payloads + 1
         length = len(inps)
         # returning value
         is_vulnerable = False
         # iterate over all forms
-        print("Testing " + str(payloads) + " payloads:")
-        for i in range(length):
-            inc = inps[i]
-            outc = outcs[i]
-            os_script = inc
-            for form in forms:
-                form_details = get_form_details(form)
-                if form_details == None:
-                    break
+        for form in forms:
+            form_details = get_form_details(form)
+            if form_details == None:
+                break
+            for i in range(length):
+                inc = inps[i]
+                outc = outcs[i]
+                os_script = inc
                 content = submit_form(form_details, url, os_script).content.decode('latin-1')
                 if outc in content:
                     print(R + f"[-] Command Injection Detected on {url}" + W)
@@ -140,8 +152,8 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
                     value_forms_malforms[1] = value_forms_malforms[1] + 1
                     is_vulnerable = True
                     # won't break because we want to print other available vulnerable forms
-            if is_vulnerable == True:
-                break
+                if is_vulnerable == True:
+                    break
 
         if is_vulnerable == True:
             print(R + "[-]" + f" Command Injection detected on {url}" + W)
@@ -160,6 +172,8 @@ def cmdi(target, output, data):
 
     try:
         print ('\n\n' + G + '[+]' + Y + ' OS Command Injection (CMDi) :' + W + '\n')
+
+        csv_reader()
 
         user_agent = {
             'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'
