@@ -93,7 +93,7 @@ def csv_reader():
         with open(payload_path) as f:
             readCSV = csv.reader(f, delimiter=',')
             i = 0
-            print(G + "[+]" + C + " Importing payload from " W + payload_path)
+            print(G + "[+]" + C + " Importing payload from " + W + payload_path)
             for row in readCSV:
                 if not row:
                     continue
