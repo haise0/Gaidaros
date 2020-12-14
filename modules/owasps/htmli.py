@@ -86,6 +86,24 @@ def submit_form(form_details, url, value):
     except Exception as e:
         print('\n' + R + '[-] Exception : ' + C + str(e) + W)
 
+def csv_reader():
+    payload_path = './dictionary/htmlipayload.csv'
+    try:
+        with open(payload_path) as f:
+            readCSV = csv.reader(f, delimiter=',')
+            i = 0
+            print("[+] Importing payload from " + payload_path)
+            for row in readCSV:
+                if not row:
+                    continue
+                if i < 10:
+                    print("   |Loop " + str(i+1) + ": " + row[0])
+                    i = i + 1
+                else:
+                    print("   |...\n")
+                    break
+    except Exception as e:
+        print(R + '[-] Exception : ' + C + str(e) + W)
 
 def scan_htmli(url, value_forms_malforms, htmli_data):
     """
@@ -113,12 +131,10 @@ def scan_htmli(url, value_forms_malforms, htmli_data):
                 #print('in: ',inp,', out: ',outc)
                 inps.append(inp)
                 outcs.append(outc)
-                payloads = payloads + 1
         length = len(inps)
         # returning value
         is_vulnerable = False
         # iterate over all forms
-        print('Testing' + str(payloads) + ' payloads:')
         for i in range(length):
             inc = inps[i]
             outc = outcs[i]
@@ -158,6 +174,8 @@ def htmli(target, output, data):
     try:
         print ('\n\n' + G + '[+]' + Y + ' HTML Injection (HTMLi) :' + W + '\n')
 
+        csv_reader()
+        
         user_agent = {
             'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'
         }
