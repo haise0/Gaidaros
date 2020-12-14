@@ -45,12 +45,15 @@ def get_form_details(form):
         print('\n' + R + '[-] Exception : ' + C + str(e) + W)
 
 def cookie_info(url, attributes):
-    r = requests.get(url)
-    for cookie in r.cookies:
-        if cookie in attributes:
-            continue
-        else:
-            attributes.append(cookie.name)
+    try:
+        r = requests.get(url)
+        for cookie in r.cookies:
+            if cookie in attributes:
+                continue
+            else:
+                attributes.append(cookie.name)
+    except Exception as e:
+        return
 
 def scan_csrf(url, value_forms_malforms, csrf_data):
     """
