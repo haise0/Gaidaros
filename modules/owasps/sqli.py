@@ -162,8 +162,8 @@ def scan_sqli(url, value_forms_malforms, sqli_data):
                     value_forms_malforms[1] = value_forms_malforms[1] + 1
                     is_vulnerable = True
                     # won't break because we want to print other available vulnerable forms
-            if is_vulnerable == True:
-                break
+                if is_vulnerable == True:
+                    break
             if is_vulnerable == True:
                 print(R + "[-]" + f" SQLi detected on {url}" + W)
                 sqli_data.append(f"SQLi detected on {url}\n")
