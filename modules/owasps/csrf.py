@@ -78,15 +78,15 @@ def scan_csrf(url, value_forms_malforms, csrf_data):
                 for i in form_details:
                     if attributes.rstrip() == i:
                         is_vulnerable = False
-                        print(G + "[+]" + f" Cross Site Request Forgery not detected on {url}" + W)
-                        csrf_data.append(f"Cross Site Request Forgery not detected on {url}\n")
+                        print(G + "[+]" + f" CSRF not detected on {url}" + W)
+                        csrf_data.append(f"CSRF not detected on {url}\n")
                         break
             if is_vulnerable == True:
                 print(R + "[-]" + C + " Hidden attributes details:" + W)
                 for i in form_details:
                     print(C + "[.] " + W + i)
                 print(R + "[-] CSRF Tokens not found!" + W)
-                print(R + f"[-] Potential Cross Site Request Forgery Vulnerability Detected on {url}" + W)
+                print(R + f"[-] Potential CSRF Detected on {url}" + W)
                 csrf_data.append(f"Cross Site Request Forgery detected on {url}\n")
                 break
 
