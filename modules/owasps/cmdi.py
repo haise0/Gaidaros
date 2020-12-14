@@ -103,7 +103,7 @@ def csv_reader():
                 else:
                     print("   |...\n")
                     break
-    except Exception as E:
+    except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
 
 def scan_cmdi(url, value_forms_malforms, cmdi_data):
