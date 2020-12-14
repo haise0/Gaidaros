@@ -44,6 +44,14 @@ def get_form_details(form):
     except Exception as e:
         print('\n' + R + '[-] Exception : ' + C + str(e) + W)
 
+def cookie_info(url, attributes):
+    r = requests.get(url)
+    for cookie in r.cookies:
+        if cookie in attributes:
+            continue
+        else:
+            attributes.append(cookie.name)
+
 def scan_csrf(url, value_forms_malforms, csrf_data):
     """
     Given a `url`, it prints all csrf vulnerable forms and
@@ -62,6 +70,7 @@ def scan_csrf(url, value_forms_malforms, csrf_data):
         COMMON_CSRF_ATTRIBUTES = open(CSRFtokens_path, "r")
         for form in forms:
             form_details = get_form_details(form)
+            cookie_info(url, form_details)
             if form_details == None:
                 print(G + "[+]" + " No hidden values detected!" + W)
                 break
@@ -69,15 +78,15 @@ def scan_csrf(url, value_forms_malforms, csrf_data):
                 for i in form_details:
                     if attributes.rstrip() == i:
                         is_vulnerable = False
-                        print(G + "[+]" + f" CSRF not detected on {url}" + W)
-                        csrf_data.append(f"CSRF not detected on {url}\n")
+                        print(G + "[+]" + f" Cross Site Request Forgery not detected on {url}" + W)
+                        csrf_data.append(f"Cross Site Request Forgery not detected on {url}\n")
                         break
             if is_vulnerable == True:
                 print(R + "[-]" + C + " Hidden attributes details:" + W)
                 for i in form_details:
-                    print(W + i)
-                print(R + "[-]" + C + " CSRF Tokens not found!" + W)
-                print(R + f"[-] Potential CSRF Detected on {url}" + W)
+                    print(C + "[.] " + W + i)
+                print(R + "[-] CSRF Tokens not found!" + W)
+                print(R + f"[-] Potential Cross Site Request Forgery Vulnerability Detected on {url}" + W)
                 csrf_data.append(f"Cross Site Request Forgery detected on {url}\n")
                 break
 
