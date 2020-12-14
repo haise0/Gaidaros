@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup as bs
 from urllib.parse import urljoin
 import requests
 import urllib3
+import csv
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -99,41 +100,63 @@ def scan_sqli(url, value_forms_malforms, sqli_data):
         print(G + "[+]" + C + f" Detected {len(forms)} forms on {url}" + W)
         sqli_data.append(f"Detected {len(forms)} forms on {url}")
         value_forms_malforms[0] = value_forms_malforms[0] + len(forms)
-        sqli_script = '\''
+        #sqli_script = '\''
         # returning value
+        payload_path = './dictionary/sqlipayload.csv'
+        inps = []
+        outcs = []
+        payloads = 0
+        with open(payload_path) as f:
+            readCSV = csv.reader(f, delimiter=',')
+            for row in readCSV:
+                if not row:
+                    continue
+                inp = row[0]
+                outc = row[1]
+                #print('in: ',inp,', out: ',outc)
+                inps.append(inp)
+                outcs.append(outc)
+                payloads = payloads + 1
+        length = len(inps)
         is_vulnerable = False
         # iterate over all forms
-        for form in forms:
-            form_details = get_form_details(form)
-            if form_details == None:
+        print('Testing ' + str(payloads) + ' payloads:')
+        for i in range(length):
+            inc = inps[i]
+            outc = outcs[i]
+            sqli_script = inc
+            for form in forms:
+                form_details = get_form_details(form)
+                if form_details == None:
+                    break
+                response = submit_form(form_details, url, sqli_script).status_code
+                if response == 500:
+                    print(R + f"[-] Potential SQL Injection Detected on {url}: Response Code 500 Internal Server Error" + W)
+                    print(R + "[-]" + C + " Form details:" + W)
+                    pprint(form_details)
+                    sqli_data.append(f"Potential SQL Injection Detected on {url}: Code 500 Internal Server Error | Form details: {form_details}")
+                    print(W)
+                    value_forms_malforms[1] = value_forms_malforms[1] + 1
+                    is_vulnerable = True
+                    continue
+                content = submit_form(form_details, url, sqli_script).content.decode('latin-1')
+                if "You have an error in your sql syntax" in content or "warning: mysql" in content or "unclosed quotation mark after the character string" in content:
+                    print(R + f"[-] SQLi Detected on {url}" + W)
+                    print(R + "[-]" + C + " Form details:" + W)
+                    pprint(form_details)
+                    sqli_data.append(f"SQL Injection Detected on {url} | Form details: {form_details}")
+                    print(W)
+                    value_forms_malforms[1] = value_forms_malforms[1] + 1
+                    is_vulnerable = True
+                    # won't break because we want to print other available vulnerable forms
+            if is_vulnerable == True:
                 break
-            response = submit_form(form_details, url, sqli_script).status_code
-            if response == 500:
-                print(R + f"[-] Potential SQL Injection Detected on {url}: Response Code 500 Internal Server Error" + W)
-                print(R + "[-]" + C + " Form details:" + W)
-                pprint(form_details)
-                sqli_data.append(f"Potential SQL Injection Detected on {url}: Code 500 Internal Server Error | Form details: {form_details}")
-                print(W)
-                value_forms_malforms[1] = value_forms_malforms[1] + 1
-                is_vulnerable = True
-                continue
-            content = submit_form(form_details, url, sqli_script).content.decode('latin-1')
-            if "You have an error in your sql syntax" in content or "warning: mysql" in content or "unclosed quotation mark after the character string" in content:
-                print(R + f"[-] SQLi Detected on {url}" + W)
-                print(R + "[-]" + C + " Form details:" + W)
-                pprint(form_details)
-                sqli_data.append(f"SQL Injection Detected on {url} | Form details: {form_details}")
-                print(W)
-                value_forms_malforms[1] = value_forms_malforms[1] + 1
-                is_vulnerable = True
-                # won't break because we want to print other available vulnerable forms
-
-        if is_vulnerable == True:
-            print(R + "[-]" + f" SQLi detected on {url}" + W)
-            sqli_data.append(f"SQLi detected on {url}\n")
-        else:
-            print(G + "[+]" + f" SQLi not detected on {url}" + W)
-            sqli_data.append(f"SQLi not detected on {url}\n")
+            if is_vulnerable == True:
+                print(R + "[-]" + f" SQLi detected on {url}" + W)
+                sqli_data.append(f"SQLi detected on {url}\n")
+            else:
+                print(G + "[+]" + f" SQLi not detected on {url}" + W)
+                sqli_data.append(f"SQLi not detected on {url}\n")
 
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
