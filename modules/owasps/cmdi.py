@@ -103,6 +103,7 @@ def csv_reader():
                 else:
                     print("\t|...\n")
                     break
+        print()
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
 
