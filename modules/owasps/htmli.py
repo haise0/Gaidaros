@@ -146,7 +146,7 @@ def scan_htmli(url, value_forms_malforms, htmli_data):
                 htmli_script = inc
                 content = submit_form(form_details, url, htmli_script).content.decode('latin-1')
                 if outc in content:
-                    print(R + f"[-] HTML Injection Detected on {url}" + W)
+                    print(R + f"[-] HTMLi Detected on {url}" + W)
                     print(R + "[-]" + C + " Form details:" + W)
                     pprint(form_details)
                     htmli_data.append(f"HTML Injection Detected on {url} | Form details: {form_details}")
@@ -158,11 +158,11 @@ def scan_htmli(url, value_forms_malforms, htmli_data):
                     break
 
         if is_vulnerable == True:
-            print(R + "[-]" + f" HTML Injection detected on {url}" + W)
-            htmli_data.append(f"HTML Injection detected on {url}\n")
+            print(R + "[-]" + f" HTMLi detected on {url}" + W)
+            htmli_data.append(f"HTMLi detected on {url}\n")
         else:
-            print(G + "[+]" + f" HTML Injection not detected on {url}" + W)
-            htmli_data.append(f"HTML Injection not detected on {url}\n")
+            print(G + "[+]" + f" HTMLi not detected on {url}" + W)
+            htmli_data.append(f"HTMLi not detected on {url}\n")
 
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
