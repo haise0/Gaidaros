@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup as bs
 from urllib.parse import urljoin
 import requests
 import urllib3
+import csv
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -61,7 +62,6 @@ def submit_form(form_details, url, value):
         value (str): this will be replaced to all text and search inputs
     Returns the HTTP Response after form submission
     """
-    # construct the full URL (if the url provided in action is relative)
     try:
         target_url = urljoin(url, form_details["action"])
         # get the inputs
@@ -89,41 +89,63 @@ def submit_form(form_details, url, value):
 
 def scan_htmli(url, value_forms_malforms, htmli_data):
     """
-    Given a `url`, it prints all htmli vulnerable forms and
+    Given a `url`, it prints all cmdi vulnerable forms and
     returns True if any is vulnerable, False otherwise
     """
+    
     try:
-
         # get all the forms from the URL
         forms = get_all_forms(url)
         print(G + "[+]" + C + f" Detected {len(forms)} forms on {url}" + W)
         htmli_data.append(f"Detected {len(forms)} forms on {url}")
         value_forms_malforms[0] = value_forms_malforms[0] + len(forms)
-        html_script = "<h1>Exploited</h1>"
+        payload_path = './dictionary/htmlipayload.csv'
+        inps = []
+        outcs = []
+        payloads = 0
+        with open(payload_path) as f:
+            readCSV = csv.reader(f, delimiter=',')
+            for row in readCSV:
+                if not row:
+                    continue
+                inp = row[0]
+                outc = row[1]
+                #print('in: ',inp,', out: ',outc)
+                inps.append(inp)
+                outcs.append(outc)
+                payloads = payloads + 1
+        length = len(inps)
         # returning value
         is_vulnerable = False
         # iterate over all forms
-        for form in forms:
-            form_details = get_form_details(form)
-            if form_details == None:
+        print('Testing' + str(payloads) + ' payloads:')
+        for i in range(length):
+            inc = inps[i]
+            outc = outcs[i]
+            htmli_script = inc
+            for form in forms:
+                form_details = get_form_details(form)
+                if form_details == None:
+                    break
+                content = submit_form(form_details, url, htmli_script).content.decode('latin-1')
+                if outc in content:
+                    print(R + f"[-] HTML Injection Detected on {url}" + W)
+                    print(R + "[-]" + C + " Form details:" + W)
+                    pprint(form_details)
+                    htmli_data.append(f"HTML Injection Detected on {url} | Form details: {form_details}")
+                    print(W)
+                    value_forms_malforms[1] = value_forms_malforms[1] + 1
+                    is_vulnerable = True
+                    # won't break because we want to print other available vulnerable forms
+            if is_vulnerable == True:
                 break
-            content = submit_form(form_details, url, html_script).content.decode('latin-1')
-            if html_script in content:
-                print(R + f"[-] HTMLi Detected on {url}" + W)
-                print(R + "[-]" + C + " Form details:" + W)
-                pprint(form_details)
-                htmli_data.append(f"HTML Injection Detected on {url} | Form details: {form_details}")
-                print(W)
-                value_forms_malforms[1] = value_forms_malforms[1] + 1
-                is_vulnerable = True
-                # won't break because we want to print other available vulnerable forms
 
         if is_vulnerable == True:
-            print(R + "[-]" + f" HTMLi detected on {url}" + W)
-            htmli_data.append(f"HTMLi detected on {url}\n")
+            print(R + "[-]" + f" HTML Injection detected on {url}" + W)
+            htmli_data.append(f"HTML Injection detected on {url}\n")
         else:
-            print(G + "[+]" + f" HTMLi not detected on {url}" + W)
-            htmli_data.append(f"HTMLi not detected on {url}\n")
+            print(G + "[+]" + f" HTML Injection not detected on {url}" + W)
+            htmli_data.append(f"HTML Injection not detected on {url}\n")
 
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
@@ -196,7 +218,6 @@ def htmli(target, output, data):
     if output != 'None':
         htmli_output(output, data, result)
         print()
-
 
 def htmli_output(output, data, result):
     data['module-HTML Injection (HTMLi)'] = result
