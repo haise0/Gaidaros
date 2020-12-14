@@ -135,14 +135,14 @@ def scan_htmli(url, value_forms_malforms, htmli_data):
         # returning value
         is_vulnerable = False
         # iterate over all forms
-        for i in range(length):
-            inc = inps[i]
-            outc = outcs[i]
-            htmli_script = inc
-            for form in forms:
-                form_details = get_form_details(form)
-                if form_details == None:
-                    break
+        for form in forms:
+            form_details = get_form_details(form)
+            if form_details == None:
+                break
+            for i in range(length):
+                inc = inps[i]
+                outc = outcs[i]
+                htmli_script = inc
                 content = submit_form(form_details, url, htmli_script).content.decode('latin-1')
                 if outc in content:
                     print(R + f"[-] HTML Injection Detected on {url}" + W)
@@ -153,8 +153,8 @@ def scan_htmli(url, value_forms_malforms, htmli_data):
                     value_forms_malforms[1] = value_forms_malforms[1] + 1
                     is_vulnerable = True
                     # won't break because we want to print other available vulnerable forms
-            if is_vulnerable == True:
-                break
+                if is_vulnerable == True:
+                    break
 
         if is_vulnerable == True:
             print(R + "[-]" + f" HTML Injection detected on {url}" + W)
