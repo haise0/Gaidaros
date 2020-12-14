@@ -105,6 +105,7 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
         payload_path = './dictionary/cmdipayload.csv'
         inps = []
         outcs = []
+        payloads = 0
         with open(payload_path) as f:
             readCSV = csv.reader(f, delimiter=',')
             for row in readCSV:
@@ -115,16 +116,16 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
                 #print('in: ',inp,', out: ',outc)
                 inps.append(inp)
                 outcs.append(outc)
+                payloads = payloads + 1
         length = len(inps)
         # returning value
         is_vulnerable = False
         # iterate over all forms
-        print('Start loop payload:')
+        print("Testing " + str(payloads) + " payloads:")
         for i in range(length):
             inc = inps[i]
             outc = outcs[i]
             os_script = inc
-            print('Loop ',i+1,': In:',inc,'Out:',outc)
             for form in forms:
                 form_details = get_form_details(form)
                 if form_details == None:
