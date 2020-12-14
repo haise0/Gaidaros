@@ -93,15 +93,15 @@ def csv_reader():
         with open(payload_path) as f:
             readCSV = csv.reader(f, delimiter=',')
             i = 0
-            print("[+] Importing payload from " + payload_path)
+            print(G + "[+]" + C + " Importing payload from " W + payload_path)
             for row in readCSV:
                 if not row:
                     continue
                 if i < 10:
-                    print("   |Loop " + str(i+1) + ": " + row[0])
+                    print("\t|Loop " + str(i+1) + ": " + row[0])
                     i = i + 1
                 else:
-                    print("   |...\n")
+                    print("\t|...\n")
                     break
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
