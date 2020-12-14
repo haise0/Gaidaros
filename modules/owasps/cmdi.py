@@ -145,7 +145,7 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
                 os_script = inc
                 content = submit_form(form_details, url, os_script).content.decode('latin-1')
                 if outc in content:
-                    print(R + f"[-] Command Injection Detected on {url}" + W)
+                    print(R + f"[-] CMDi Detected on {url}" + W)
                     print(R + "[-]" + C + " Form details:" + W)
                     pprint(form_details)
                     cmdi_data.append(f"Command Injection Detected on {url} | Form details: {form_details}")
@@ -157,11 +157,11 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
                     break
 
         if is_vulnerable == True:
-            print(R + "[-]" + f" Command Injection detected on {url}" + W)
-            cmdi_data.append(f"Command Injection detected on {url}\n")
+            print(R + "[-]" + f" CMDi detected on {url}" + W)
+            cmdi_data.append(f"CMDi detected on {url}\n")
         else:
-            print(G + "[+]" + f" Command Injection not detected on {url}" + W)
-            cmdi_data.append(f"Command Injection not detected on {url}\n")
+            print(G + "[+]" + f" CMDi not detected on {url}" + W)
+            cmdi_data.append(f"CMDi not detected on {url}\n")
 
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
