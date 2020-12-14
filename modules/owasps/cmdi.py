@@ -200,7 +200,7 @@ def cmdi(target, output, data):
             for link in links:
                 url = link.get('href')
                 if url != None:
-                    if not "http://" in url or "https://" in url:
+                    if not ("http://" in url or "https://" in url):
                         url = target +  "/" + url
                     if not '#' in url:
                         if domain in url:
