@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup as bs
 from urllib.parse import urljoin
 import requests
 import urllib3
+import csv
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -99,24 +100,46 @@ def scan_xss(url, value_forms_malforms, xss_data):
         print(G + "[+]" + C + f" Detected {len(forms)} forms on {url}" + W)
         xss_data.append(f"Detected {len(forms)} forms on {url}")
         value_forms_malforms[0] = value_forms_malforms[0] + len(forms)
-        js_script = "<script>alert('hi')</script>"
-        # returning value
+        #js_script = "<script>alert('hi')</script>"
+        payload_path = './dictionary/xsspayload.csv'
+        inps = []
+        outcs = []
+        payloads = 0
+        with open(payload_path) as f:
+            readCSV = csv.reader(f, delimiter=',')
+            for row in readCSV:
+                if not row:
+                    continue
+                inp = row[0]
+                outc = row[1]
+                #print('in: ',inp,', out: ',outc)
+                inps.append(inp)
+                outcs.append(outc)
+                payloads = payloads + 1
+        length = len(inps)
         is_vulnerable = False
         # iterate over all forms
-        for form in forms:
-            form_details = get_form_details(form)
-            if form_details == None:
+        print('Testing ' + str(payloads) + ' payloads:')
+        for i in range(length):
+            inc = inps[i]
+            outc = outcs[i]
+            js_script = inc
+            for form in forms:
+                form_details = get_form_details(form)
+                if form_details == None:
+                    break
+                content = submit_form(form_details, url, js_script).content.decode('latin-1')
+                if js_script in content:
+                    print(R + f"[-] XSS Detected on {url}" + W)
+                    print(R + "[-]" + C + " Form details:" + W)
+                    pprint(form_details)
+                    xss_data.append(f"XSS Detected on {url} | Form details: {form_details}")
+                    print(W)
+                    value_forms_malforms[1] = value_forms_malforms[1] + 1
+                    is_vulnerable = True
+                    # won't break because we want to print other available vulnerable forms
+            if is_vulnerable == True:
                 break
-            content = submit_form(form_details, url, js_script).content.decode('latin-1')
-            if js_script in content:
-                print(R + f"[-] XSS Detected on {url}" + W)
-                print(R + "[-]" + C + " Form details:" + W)
-                pprint(form_details)
-                xss_data.append(f"Cross-Site Scripting XSS Detected on {url} | Form details: {form_details}")
-                print(W)
-                value_forms_malforms[1] = value_forms_malforms[1] + 1
-                is_vulnerable = True
-                # won't break because we want to print other available vulnerable forms
 
         if is_vulnerable == True:
             print(R + "[-]" + f" XSS detected on {url}" + W)
