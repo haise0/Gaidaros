@@ -71,4 +71,4 @@ pip3 install python-docx
 ```
 
 ## Video
-[![donkey_thumbnail](https://img.youtube.com/vi/BbYwEgnk1dE/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+[![donkey_thumbnail](https://img.youtube.com/vi/sFUlN0REGrA/0.jpg)](https://www.youtube.com/watch?v=sFUlN0REGrA)
