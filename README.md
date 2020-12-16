@@ -70,5 +70,5 @@ Btw you need to install python-docx package for Python3 to generate report
 pip3 install python-docx
 ```
 
-## Video
-[![donkey_thumbnail](https://img.youtube.com/vi/sFUlN0REGrA/0.jpg)](https://www.youtube.com/watch?v=sFUlN0REGrA)
+## Demo
+[![donkey_thumbnail](https://img.youtube.com/vi/ZlT8S4dflig/0.jpg)](https://www.youtube.com/watch?v=sFUlN0REGrA)
