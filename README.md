@@ -17,8 +17,9 @@ Gaidaros specializes in the Reconnaissance Phase with the help of OSINT Framewor
 
 ## Featured 
 
-- [Apache-Vulns](https://github.com/styx00/Apache-Vulns)
 - [Python for OSINT Tooling](https://hakin9.org/product/python-for-osint-tooling/)
+
+- [styx00/Apache-Vulns](https://github.com/styx00/Apache-Vulns)
 - [thewhiteh4t/FinalRecon](https://github.com/thewhiteh4t/FinalRecon)
 
 
