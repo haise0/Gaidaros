@@ -69,6 +69,10 @@ Btw you need to install python-docx package for Python3 to generate report
 ```bash
 pip3 install python-docx
 ```
+And ofcource a software to open and edit MS docx file right on Linux machine
+```
+sudo apt install libreoffice
+```
 
 ## Demo
 [![donkey_thumbnail](https://img.youtube.com/vi/ZlT8S4dflig/0.jpg)](https://www.youtube.com/watch?v=qT6aJjzaLtY)
