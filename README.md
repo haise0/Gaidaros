@@ -76,8 +76,11 @@ And of cource a software to open and edit MS docx file right on Linux machine
 sudo apt install libreoffice
 ```
 
+## Notes
+```
+Just a school capstone project, feel free to re-use all the codes
+```
+
 ## Demo
 [![donkey_thumbnail](https://img.youtube.com/vi/ZlT8S4dflig/0.jpg)](https://www.youtube.com/watch?v=qT6aJjzaLtY)
 
-## Notes
-Just a school capstone project, feel free to re-use all the codes
