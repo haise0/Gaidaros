@@ -77,7 +77,7 @@ sudo apt install libreoffice
 ```
 
 ## Notes
-> Just a school capstone project, feel free to re-use all the codes
+> Just a school project, feel free to re-use all the codes
 
 
 ## Demo
