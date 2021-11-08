@@ -44,7 +44,7 @@ Kaidaros should function out of the box with Python version 3.x on any platform.
 
 Using help command for a list of usage
 ```bash
-sudo python3 gaidaros.py -h
+sudo python kaidaros.py -h
 ```
 Supply with your own apikeys in order to use some modules
 ```bash
@@ -52,14 +52,16 @@ nano ./conf/keys.json
 ```
 To generate reports, you'll need the `python-docx` pip package. 
 ```bash
-pip3 install python-docx
+pip install python-docx
 ```
 
 ## Roadmap
 - [] Add optional shodan information gathering options for IPs and domains
-
+- [] more here 
+- 
 ## Todo
 - [] Add to roadmap
+- [] Fix having to run script as sudo
 
 
 
