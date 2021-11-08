@@ -341,14 +341,14 @@ try:
 	data['module-Gaidaros'] = meta
 	
 	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, cms, site, virus, light, xss, cmdi, htmli, csrf, owasp, report, full]) != True:
-		print ('\n' + R + '[-] Error : ' + C + 'Atleast One Argument is Required with URL' + W)
+		print ('\n' + R + '[-] Error : ' + C + 'At least one argument is required with URL' + W)
 		output = 'None'
 		sys.exit()
 		
 	from modules.supports.rich_table import table_checklist
 	table_checklist(recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, pscan, dirrec, light, cve, cms, site, virus, owasp, xss, csrf, sqli, cmdi, htmli, report, output, full, trace)
-	user_confirm = input(G + '\n[?]' + C + ' Please confirm the options (Y/N) : ' + W)
-	if user_confirm.lower().startswith("y") or user_confirm.lower().:
+	user_confirm = input(G + '\n[?]' + C + ' Please confirm the options with Y/N: ' + W)
+	if user_confirm.lower().startswith("y"):
 		pass
 	else:
 		print(G + '\n[+]' + C + 'Going back - you may proceed again after adjusting your options. \n')
