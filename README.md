@@ -9,7 +9,9 @@
 ## Summary
 Gaidaros was designed to be a fast and simple open-source vulnerability security scanner and penetration testing tool concentrated on Apache Web Servers. The tool follows the rule of pentesting checklist that automates the process of detecting and exploiting the target Web Server and its Web Applications' vulnerabilities, helping minimizing the time and effort of anyone looking forward to test the security of a particular web server, and finally providing well-designed afterward reports. It comes with a powerful detection engine, numerous niche features for the ultimate penetration tester.
 
-Kaidaros is the evolution and continuation of this unfortunately not-well-known utility. As with any tools designed to aid penetration testers and security analysts, it is not intended as a replacement, but only as a 
+Kaidaros is the evolution and continuation of this unfortunately not-well-known utility. I am continuing it because as old as it is and as small as it is, this script is something I have used for a long time, because it's just.. really good at what it does. I want it to be better. I also needed to get back into python, and a passion project seemed like the best way to do that. 
+
+As development moves forward, new features are to be implemented that can help automate the gathering of information and finding potential security holes. However, reconnaissance will be the primary focus here, and the automation of exploitation is something that will eventually be stripped out. Features designed to help with that process may or may not be implemented. 
 
 ## Features
 
@@ -62,6 +64,6 @@ pip install python-docx
 ## Todo
 - [] Add to roadmap
 - [] Fix having to run script as sudo
-
+- [] Fix psycopg2 vs psycopg2-binary nightmare
 
 
