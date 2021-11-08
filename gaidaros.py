@@ -49,10 +49,10 @@ if fail == True:
 	exit()
 
 # Code version
-version = '1.0.0'
+version = '1.0.1'
 
 # parser
-parser = argparse.ArgumentParser(description='Gaidaros - The Land of The Broken Minds | v{}'.format(version))
+parser = argparse.ArgumentParser(description='Kaidaros, forked from Gaidaros - | v{}'.format(version))
 parser.add_argument('url', help='Target URL')
 parser.add_argument('--trace', help='Traceroute', action='store_true')
 
@@ -98,27 +98,27 @@ report_help.add_argument('--report', help='Post-scan Reporting', action='store_t
 ext_help = parser.add_argument_group('Extra Options')
 ext_help.add_argument('-pm', help='Port Scan Mode [ Default : fast ] [ Available : full ]')
 ext_help.add_argument('-t', type=int, help='Number of Threads [ Default : 30 ]')
-ext_help.add_argument('-T', type=float, help='Request Timeout [ Default : 30.0 ]')
+ext_help.add_argument('-T', type=float, help='Request Timeout [ Default : 20.0 ]')
 ext_help.add_argument('-w', help='Path to Wordlist [ Default : wordlists/dirb_common.txt ]')
 ext_help.add_argument('-r', action='store_true', help='Allow Redirect [ Default : False ]')
 ext_help.add_argument('-s', action='store_false', help='Toggle SSL Verification [ Default : True ]')
 ext_help.add_argument('-d', help='Custom DNS Servers [ Default : 1.1.1.1 ]')
 ext_help.add_argument('-e', help='File Extensions [ Example : txt, xml, php ]')
-ext_help.add_argument('-m', help='Traceroute Mode [ Default : UDP ] [ Available : TCP, ICMP ]')
+ext_help.add_argument('-m', help='Traceroute Mode [ Default : TCP ] [ Available : TCP, UDP, ICMP ]')
 ext_help.add_argument('-p', type=int, help='Port for Traceroute [ Default : 80 / 33434 ]')
-ext_help.add_argument('-tt', type=float, help='Traceroute Timeout [ Default : 1.0 ]')
+ext_help.add_argument('-tt', type=float, help='Traceroute Timeout [ Default : 5.0 ]')
 ext_help.add_argument('-o', help='Export Output [ Default : txt ] [ Available : xml, csv ]')
 ext_help.set_defaults(
 	t=30,
-	T=30.0,
+	T=20.0,
 	w='wordlists/dirb_common.txt',
 	r=False,
 	s=True,
 	d='1.1.1.1',
 	e='',
-	m='UDP',
+	m='TCP',
 	p=33434,
-	tt=1.0,
+	tt=5.0,
 	o='txt',
     pm='fast')
 
@@ -184,23 +184,20 @@ meta = {}
 
 def banner():
 	banner = r'''
-  ▄████   ▄▄▄        ██▓ ▓█████▄   ▄▄▄        ██▀███    ▒█████     ██████ 
- ██▒ ▀█▒ ▒████▄     ▓██▒ ▒██▀ ██▌ ▒████▄     ▓██ ▒ ██▒ ▒██▒  ██▒ ▒██    ▒ 
-▒██░▄▄▄░ ▒██  ▀█▄   ▒██▒ ░██   █▌ ▒██  ▀█▄   ▓██ ░▄█ ▒ ▒██░  ██▒ ░ ▓██▄   
-░▓█  ██▓ ░██▄▄▄▄██  ░██░ ░▓█▄   ▌ ░██▄▄▄▄██  ▒██▀▀█▄   ▒██   ██░   ▒   ██▒
-░▒▓███▀▒  ▓█   ▓██▒ ░██░ ░▒████▓   ▓█   ▓██▒ ░██▓ ▒██▒ ░ ████▓▒░ ▒██████▒▒
- ░▒   ▒   ▒▒   ▓▒█░ ░▓    ▒▒▓  ▒   ▒▒   ▓▒█░ ░ ▒▓ ░▒▓░ ░ ▒░▒░▒░  ▒ ▒▓▒ ▒ ░
-  ░   ░    ▒   ▒▒ ░  ▒ ░  ░ ▒  ▒    ▒   ▒▒ ░   ░▒ ░ ▒░   ░ ▒ ▒░  ░ ░▒  ░ ░
-░ ░   ░    ░   ▒     ▒ ░  ░ ░  ░    ░   ▒      ░░   ░  ░ ░ ░ ▒   ░  ░  ░  
-      ░        ░  ░  ░      ░           ░  ░    ░          ░ ░         ░  
-                       ░                                                     
+██   ██  █████  ██ ██████   █████  ██████   ██████  ███████ 
+██  ██  ██   ██ ██ ██   ██ ██   ██ ██   ██ ██    ██ ██      
+█████   ███████ ██ ██   ██ ███████ ██████  ██    ██ ███████ 
+██  ██  ██   ██ ██ ██   ██ ██   ██ ██   ██ ██    ██      ██ 
+██   ██ ██   ██ ██ ██████  ██   ██ ██   ██  ██████  ███████ 
+                                                            
+                                                            
 '''
 	print (R + banner + W)
 	print (R + '[>]' + Y + ' Created By : ' + W + 'Gaidaros Team' + R + ' [<]\t[>]' + Y + ' Version : ' + W + version + R +' [<]' + W + '\n\n')
 
 def ver_check():
 	print(G + '[+]' + C + ' Checking for Updates...', end='')
-	ver_url = 'https://raw.githubusercontent.com/Ch3lLIST4/Gaidaros/main/version.txt'
+	ver_url = 'https://raw.githubusercontent.com/haise0/Kaidaros/main/version.txt'
 	try:
 		ver_rqst = requests.get(ver_url, timeout=5)
 		ver_sc = ver_rqst.status_code
@@ -304,7 +301,7 @@ try:
 	ver_check()
 
 	if target.startswith(('http://', 'https://')) == False:
-		print(R + '[-]' + C + ' Protocol Missing, Include ' + W + 'http://' + C + ' or ' + W + 'https://' + '\n')
+		print(R + '[-]' + C + ' Protocol missing - please include ' + W + 'http://' + C + ' or ' + W + 'https://' + '\n')
 		sys.exit()
 	else:
 		pass
@@ -326,9 +323,9 @@ try:
 	except:
 		try:
 			ip = socket.gethostbyname(hostname)
-			print ('\n' + G + '[+]' + C + ' IP Address : ' + W + str(ip))
+			print ('\n' + G + '[+]' + C + 'IP address: ' + W + str(ip))
 		except Exception as e:
-			print ('\n' + R + '[+]' + C + ' Unable to Get IP : ' + W + str(e))
+			print ('\n' + R + '[+]' + C + 'Unable to retrieve IP: ' + W + str(e))
 			if '[Errno -2]' in str(e):
 				sys.exit()
 			else:
@@ -351,10 +348,10 @@ try:
 	from modules.supports.rich_table import table_checklist
 	table_checklist(recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, pscan, dirrec, light, cve, cms, site, virus, owasp, xss, csrf, sqli, cmdi, htmli, report, output, full, trace)
 	user_confirm = input(G + '\n[?]' + C + ' Please confirm the options (Y/N) : ' + W)
-	if user_confirm.lower().startswith("y"):
+	if user_confirm.lower().startswith("y") or user_confirm.lower().:
 		pass
 	else:
-		print(G + '\n[+]' + C + ' Quitting Program. Please re-select the options you want for the checklist\n')
+		print(G + '\n[+]' + C + 'Going back - you may proceed again after adjusting your options. \n')
 		sys.exit()
 	
 	if output == 'txt':
@@ -386,7 +383,7 @@ try:
 		from modules.recons.sslinfo import cert
 		cert(hostname, output, data)
 	elif sslinfo == True and not target.startswith('https://'):
-		print('\n' + R + '[-]' + C + ' SSL Certification Scan is Not Supported for HTTP protocol' + W + '\n')
+		print('\n' + R + '[-]' + C + 'SSL Certification Scan is not supported for HTTP protocols.' + W + '\n')
 		sys.exit()
 	else:
 		pass
@@ -407,7 +404,7 @@ try:
 		from modules.recons.subdom import subdomains
 		subdomains(domain, tout, output, data)
 	elif subd == True and type_ip == True:
-		print(R + '[-]' + C + ' Sub-Domain Enumeration is Not Supported for IP Addresses' + W + '\n')
+		print(R + '[-]' + C + ' Sub-Domain Enumeration is not supported for IP Addresses.' + W + '\n')
 		sys.exit()
 	else:
 		pass
@@ -474,7 +471,7 @@ try:
 		full_scan()
 	
 	end_time = datetime.datetime.now() - start_time
-	print ('\n' + G + '[+]' + C + ' Completed in ' + W + str(end_time) + '\n')
+	print ('\n' + G + '[+]' + C + 'Scan completed in ' + W + str(end_time) + '\n')
 
 	meta.update({'End Time': str(datetime.datetime.now().strftime('%I:%M:%S %p'))})
 	meta.update({'Completion Time': str(end_time)})
@@ -498,5 +495,5 @@ try:
 		
 	sys.exit()
 except KeyboardInterrupt:
-	print (R + '[-]' + C + ' Keyboard Interrupt.' + W + '\n')
+	print (R + '[-]' + C + 'Keyboard interrupt!' + W + '\n')
 	sys.exit()
